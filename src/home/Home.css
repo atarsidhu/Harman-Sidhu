@@ -1,7 +1,8 @@
-.home {
+/* .home {
   position: fixed;
   top: 0;
-}
+} */
+
 .home__image {
   width: 100%;
   /* height: calc(100vh - 70px); */
@@ -27,20 +28,46 @@
 
 .name {
   font-size: 90px;
-  text-shadow: 2px 2px 8px black;
+  text-shadow: 2px 2px 10px black;
   font-weight: 600;
   margin-bottom: 20px;
 }
 
 .title {
   font-size: 40px;
-  text-shadow: 2px 2px 8px black;
+  text-shadow: 2px 2px 10px black;
   color: white;
   font-weight: 400;
 }
 
 .remax {
   font-size: 30px;
-  text-shadow: 2px 2px 8px black;
+  text-shadow: 2px 2px 10px black;
   font-weight: 100;
+}
+
+.carousel {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.dots {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  margin-left: -40px;
+}
+
+.dot___3c3SI {
+  border-width: 0;
+  margin: 2px;
+  height: 5px;
+  border-radius: 5px;
+  background-color: rgba(16, 16, 16, 0.5);
+}
+
+.carousel__dot--selected {
+  background-color: white;
 }
