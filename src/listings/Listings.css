@@ -3,7 +3,6 @@
   margin: auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* Add filter on top and then 1fr 1fr below that for listings and maps */
 }
 
 .filter {
