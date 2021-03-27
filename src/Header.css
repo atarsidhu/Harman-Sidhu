@@ -7,7 +7,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 1;
+  z-index: 100;
+  transition: all 250ms;
+}
+
+.sticky-background {
+  background-color: white;
+  transition: all 250ms;
 }
 
 .header__nav {
@@ -19,6 +25,10 @@
   color: white;
   padding: 0 20px;
   font-size: 20px;
+}
+
+.stick-text {
+  color: black;
 }
 
 .header__logo {
