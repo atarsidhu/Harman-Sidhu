@@ -1,26 +1,34 @@
-/* .home {
-  position: fixed;
-  top: 0;
-} */
+.home {
+  background-color: whitesmoke;
+}
 
-.home__image {
+.home__landingPage {
+  height: calc(100vh - 100px);
+}
+
+.tint {
   width: 100%;
-  /* height: calc(100vh - 70px); */
   height: 100vh;
-  position: fixed;
+  position: absolute;
+  top: 0;
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  box-shadow: 0 1px 8px black;
+}
+
+.test {
+  z-index: 3;
 }
 
 .homeImage {
   width: 100%;
-  /* height: calc(100vh - 70px); */
   height: 100vh;
   object-fit: cover;
 }
 
 .home__content {
-  z-index: 1;
-  position: fixed;
+  z-index: 2;
+  position: absolute;
   top: 30%;
   left: 10%;
   color: white;
@@ -47,7 +55,7 @@
 }
 
 .carousel {
-  position: fixed;
+  position: absolute;
   top: 0;
   height: 100%;
   width: 100%;
@@ -70,4 +78,25 @@
 
 .carousel__dot--selected {
   background-color: white;
+}
+
+/* Listings Section */
+
+.listings-section {
+  width: 75%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.listings__title {
+  font-size: 60px;
+  color: rgb(70, 70, 70);
+}
+
+.listings__cards {
+  width: 90%;
+  margin: auto;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }

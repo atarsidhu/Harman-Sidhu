@@ -1,26 +1,14 @@
-.listings {
-  width: 80%;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* Add filter on top and then 1fr 1fr below that for listings and maps */
-}
-
-.filter {
-  grid-column: 1/3;
-  margin-bottom: 100px;
-}
-
-.cards-section {
-  /* display: grid;
-  grid-template-columns: 1fr 1fr; */
-  /* width: 50%; */
-}
-
-.card {
+.card-basic {
+  /* display: flex;
+  flex-direction: column; */
+  /* background-color: white; */
   border-radius: 10px;
   box-shadow: 0 0 7px black;
   margin: 20px;
+  /* justify-content: center; */
+  /* background-image: url("../house-3.jpg");
+  background-position: center;
+  background-size: cover; */
   position: relative;
 }
 
@@ -28,7 +16,7 @@
   position: absolute;
   left: 0%;
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   padding: 15px;
   width: calc(100% - 30px);
@@ -44,7 +32,7 @@
   left: 0;
   padding: 15px;
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 500;
   width: calc(100% - 30px);
   border-bottom-left-radius: 10px;
