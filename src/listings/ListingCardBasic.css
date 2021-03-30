@@ -3,7 +3,7 @@
   flex-direction: column; */
   /* background-color: white; */
   border-radius: 10px;
-  box-shadow: 0 0 7px black;
+  /* box-shadow: 0 0 7px black; */
   margin: 20px;
   /* justify-content: center; */
   /* background-image: url("../house-3.jpg");
@@ -19,11 +19,21 @@
   font-size: 20px;
   font-weight: bold;
   padding: 15px;
-  width: calc(100% - 30px);
+  width: calc(100%);
   padding-bottom: 30px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   background-image: linear-gradient(rgb(44, 44, 44), rgba(44, 44, 44, 0));
+}
+
+.card-basic .card__sqft {
+  position: absolute;
+  right: 0;
+  color: white;
+  font-size: 15px;
+  padding: 15px;
+  padding-top: 20px;
+  font-weight: 500;
 }
 
 .card-basic .card__price {
@@ -34,7 +44,7 @@
   color: white;
   font-size: 20px;
   font-weight: 500;
-  width: calc(100% - 30px);
+  width: calc(100%);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   background-image: linear-gradient(
@@ -49,9 +59,18 @@
   bottom: 0;
   right: 0;
   padding: 15px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
   color: white;
   /* font-size: 16px; */
-  /* font-weight: 500; */
+  font-weight: 500;
+}
+
+.icon {
+  color: white;
+  padding-bottom: 2px;
+  z-index: 1;
 }
 
 .card-basic .propertyImage {

@@ -68,10 +68,11 @@ function Home() {
       <div className="listings-section">
         <h1 className="listings__title">Featured Listings</h1>
         <div className="listings__cards">
+          {/* Wont work unless we pass in props */}
+          {/* <ListingCardBasic />
           <ListingCardBasic />
           <ListingCardBasic />
-          <ListingCardBasic />
-          <ListingCardBasic />
+          <ListingCardBasic /> */}
         </div>
       </div>
     </div>

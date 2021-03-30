@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./Listings.css";
-import { data } from "../api/realtor";
-import { useDataLayerValue } from "../DataLayer";
 import axios from "axios";
 import ListingCardBasic from "./ListingCardBasic";
-// import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Form, InputGroup, Button } from "react-bootstrap";
+import Map from "./Map";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import HomeWorkIcon from "@material-ui/icons/HomeWork";
+import HotelIcon from "@material-ui/icons/Hotel";
+import BathtubIcon from "@material-ui/icons/Bathtub";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 function Listings() {
   // Might not need context API: Pull the data here, then we can pass it as
   //  prop to new react component(DetailedListing) which would be when a user clicks a listing
 
   const REALTOR_API_KEY = process.env.REACT_APP_REALTOR_API_KEY;
-
-  // const [{ properties }, dispatch] = useDataLayerValue();
 
   const [location, setLocation] = useState("All");
   const [property, setProperty] = useState("All");
@@ -28,37 +29,14 @@ function Listings() {
     latitudeMax: "",
     longitudeMax: "",
   });
+  const [listings, setListings] = useState([]);
+  // const [listingAddress, setListingAddress] = useState("");
+  // const [listingCity, setListingCity] = useState("");
 
-  // Vancouver Area
-  // Bottom left: lat N/S 49.200255, long E/W -123.219011
-  // top right: 49.297520, -123.023318
-
-  // useEffect(() => {
-  //   axios
-  //     .request(options)
-  //     .then(function (response) {
-  //       // console.log(response.data.results);
-  //       // data(response.data.Results);
-
-  //       dispatch({
-  //         type: "SET_SEARCH",
-  //         properties: response.data.Results,
-  //       });
-  //     })
-  //     .catch(function (error) {
-  //       console.error(error);
-  //     });
-
-  //   console.log(properties);
-  // }, []);
-
-  // 0-No Preference|1-House|2-Duplex|3-Triplex|5-Residential Commercial Mix|
-  // 6-Mobile Home|12-Special Purpose|14-Other|16-Row / Townhouse|17-Apartment|
-  // 19-Fourplex|20-Garden Home|26-Modular|27-Manufactured Home/Mobile|
-  // 28-Commercial Apartment|29-Manufactured Home
-
+  /**
+   * Filter the results based on the selections made by the user.
+   */
   function filterListings() {
-    // Call function here to get lang and lat of locations
     getCoordinates(location);
 
     // When setting the min and max price, we must also apply the
@@ -98,13 +76,19 @@ function Listings() {
     axios
       .request(options)
       .then(function (response) {
-        console.log(response.data.Results);
+        setListings(response.data.Results);
+        console.log(listings);
       })
       .catch(function (error) {
         console.error(error);
       });
   }
 
+  /**
+   * Determines the minimum and maximum GPS coordinates of the selected location.
+   *
+   * @param {string} location Name of area.
+   */
   function getCoordinates(location) {
     switch (location) {
       case "All":
@@ -184,81 +168,117 @@ function Listings() {
 
   return (
     <div className="listings">
+      <div className="listings__title">Listings</div>
+
       <div className="filter">
         <h2 className="filter__title">Filter</h2>
         <Container>
           <Row className="mb-3">
-            <p className="mb-1">Location</p>
-            <Form.Control
-              as="select"
-              onChange={(e) => setLocation(e.target.value)}
-            >
-              <option value="All">All</option>
-              <option value="Vancouver">Vancouver</option>
-              <option value="Richmond">Richmond</option>
-              <option value="Surrey">Surrey</option>
-              <option value="White Rock">White Rock</option>
-              <option value="Langley">Langley</option>
-              <option value="Burnaby">Burnaby</option>
-              <option value="Abbotsford">Abbotsford</option>
-              <option value="Chilliwack">Chilliwack</option>
-            </Form.Control>
-          </Row>
-          <Row className="mb-3">
-            <p className="mb-1">Property Type</p>
-            <Form.Control
-              as="select"
-              onChange={(e) => setProperty(e.target.value)}
-            >
-              <option>All</option>
-              <option>House</option>
-              <option>Duplex</option>
-              <option>Triplex</option>
-              <option>Apartment</option>
-              <option>Other</option>
-            </Form.Control>
-          </Row>
-          <Row className="mb-3">
-            <p className="mb-1">Minimum Price</p>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text>$</InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control
-                type="number"
-                placeholder="Min. Price"
-                onChange={(e) => setMinPrice(e.target.value)}
-              />
-            </InputGroup>
-          </Row>
-          <Row className="mb-3">
-            <p className="mb-1">Maximum Price</p>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text>$</InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control
-                type="number"
-                placeholder="Max. Price"
-                onChange={(e) => setMaxPrice(e.target.value)}
-              />
-            </InputGroup>
-          </Row>
-          <Row className="mb-3">
-            <p className="mb-1">Bedrooms</p>
-            <Form.Control
-              type="number"
-              placeholder="Beds"
-              onChange={(e) => setBedrooms(e.target.value)}
-            />
-          </Row>
-          <Row className="mb-4">
-            <p className="mb-1">Bathrooms</p>
-            <Form.Control
-              type="number"
-              placeholder="Baths"
-              onChange={(e) => setBathrooms(e.target.value)}
-            />
+            <Col>
+              <p className="mb-1">Location</p>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <LocationOnIcon fontSize="small" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  as="select"
+                  onChange={(e) => setLocation(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  <option value="Vancouver">Vancouver</option>
+                  <option value="Richmond">Richmond</option>
+                  <option value="Surrey">Surrey</option>
+                  <option value="White Rock">White Rock</option>
+                  <option value="Langley">Langley</option>
+                  <option value="Burnaby">Burnaby</option>
+                  <option value="Abbotsford">Abbotsford</option>
+                  <option value="Chilliwack">Chilliwack</option>
+                </Form.Control>
+              </InputGroup>
+            </Col>
+            <Col>
+              <p className="mb-1">Property Type</p>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <HomeWorkIcon fontSize="small" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  as="select"
+                  onChange={(e) => setProperty(e.target.value)}
+                >
+                  <option>All</option>
+                  <option>House</option>
+                  <option>Duplex</option>
+                  <option>Triplex</option>
+                  <option>Apartment</option>
+                  <option>Other</option>
+                </Form.Control>
+              </InputGroup>
+            </Col>
+            <Col>
+              <p className="mb-1">Minimum Price</p>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <AttachMoneyIcon fontSize="small" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  type="number"
+                  placeholder="Min. Price"
+                  onChange={(e) => setMinPrice(e.target.value)}
+                />
+              </InputGroup>
+            </Col>
+            <Col>
+              <p className="mb-1">Maximum Price</p>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <AttachMoneyIcon fontSize="small" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  type="number"
+                  placeholder="Max. Price"
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </InputGroup>
+            </Col>
+            <Col>
+              <p className="mb-1">Bedrooms</p>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <HotelIcon fontSize="small" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  type="number"
+                  placeholder="Beds"
+                  onChange={(e) => setBedrooms(e.target.value)}
+                />
+              </InputGroup>
+            </Col>
+            <Col>
+              <p className="mb-1">Bathrooms</p>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <BathtubIcon fontSize="small" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  type="number"
+                  placeholder="Baths"
+                  onChange={(e) => setBathrooms(e.target.value)}
+                />
+              </InputGroup>
+            </Col>
           </Row>
           <Row className="justify-content-center">
             <Button variant="primary" onClick={filterListings}>
@@ -267,33 +287,25 @@ function Listings() {
           </Row>
         </Container>
       </div>
+
       <div className="cards-section">
-        <h1>{coordinates.latitudeMax}</h1>
-        {/* <ListingCardBasic title={} price={} location={} /> */}
-        {/* <div className="card">
-          <img
-            src="/images/house-3.jpg"
-            alt="house"
-            className="propertyImage"
+        {/* {location === "All" ? (
+          <h1 className="pl-3">All Listings</h1>
+        ) : (
+          <h1 className="pl-3">Listings in {location}</h1>
+        )} */}
+
+        {listings?.map((listing) => (
+          <ListingCardBasic
+            address={listing?.Property?.Address?.AddressText}
+            price={listing?.Property?.Price}
+            image={listing?.Property?.Photo[0]?.HighResPath}
+            sqft={listing?.Building?.SizeInterior}
           />
-          <span className="card__title">13220 62A Ave</span>
-          <span className="card__price">$999,999</span>
-          <span className="card__location">White Rock, BC</span>
-        </div>
-        <div className="card">
-          <img
-            src="/images/house-3.jpg"
-            alt="house"
-            className="propertyImage"
-          />
-          <span className="card__title">13220 62A Ave</span>
-          <span className="card__price">$999,999</span>
-          <span className="card__location">White Rock, BC</span>
-        </div> */}
+        ))}
       </div>
-      <div className="google">
-        <h1>Maps Section</h1>
-      </div>
+
+      <Map />
     </div>
   );
 }
