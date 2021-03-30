@@ -1,0 +1,13 @@
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 30vh;
+  background-color: rgb(0, 0, 83);
+  padding: 40px;
+}
+
+.footer h1 {
+  color: white;
+}
