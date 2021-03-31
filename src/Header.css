@@ -11,9 +11,20 @@
   transition: all 250ms;
 }
 
+.headerNotHome {
+  background-color: white;
+}
+
+.headerNotHomeSticky {
+  background-color: white;
+  box-shadow: 0 0 7px -2px black;
+}
+
 .sticky-background {
   background-color: white;
   transition: all 250ms;
+  z-index: 100;
+  box-shadow: 0 0 7px -2px black;
 }
 
 .header__nav {
@@ -22,13 +33,23 @@
 }
 
 .header__option {
-  color: black;
+  color: white;
   padding: 0 20px;
+  padding-bottom: 10px;
   font-size: 20px;
+}
+
+.header__option:hover {
+  transform: translateY(-5%);
+  transition: 250ms;
 }
 
 .stick-text {
   color: black;
+}
+
+.selected {
+  border-bottom: 1px solid #007bff;
 }
 
 .header__logo {
@@ -41,5 +62,9 @@
 }
 
 .link {
-  text-decoration: none;
+  text-decoration: none !important;
+}
+
+.header p {
+  margin-bottom: 0;
 }
