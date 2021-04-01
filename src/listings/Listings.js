@@ -3,13 +3,22 @@ import "./Listings.css";
 import axios from "axios";
 import ListingCardBasic from "./ListingCardBasic";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col, Form, InputGroup, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import Map from "./Map";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import HotelIcon from "@material-ui/icons/Hotel";
 import BathtubIcon from "@material-ui/icons/Bathtub";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { Marker } from "@react-google-maps/api";
 
 function Listings() {
   // Might not need context API: Pull the data here, then we can pass it as
@@ -43,7 +52,7 @@ function Listings() {
     //  TransactionTypeId with the value of 2 for sale (3 is for rent)
     // PropertySearchTypeId doesnt work with residential (shows storage lockers)
     //  but works with vacant land
-    const options = {
+    let options = {
       method: "GET",
       url:
         "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
@@ -54,8 +63,8 @@ function Listings() {
         RecordsPerPage: "50",
         LongitudeMin: coordinates.longitudeMin,
         LatitudeMax: coordinates.latitudeMax,
-        BedRange: `${bedrooms}-${bedrooms}`,
-        BathRange: `${bathrooms}-${bathrooms}`,
+        BedRange: `${bedrooms}-${bedrooms + 10}`,
+        BathRange: `${bathrooms}-${bathrooms + 10}`,
         NumberOfDays: "0",
         CultureId: "1",
         PriceMin: `${minPrice}`,
@@ -166,15 +175,162 @@ function Listings() {
     }
   }
 
+  function handleSave(fromModal) {
+    setBathrooms(fromModal.baths);
+    setBedrooms(fromModal.beds);
+  }
+
+  const [modalShow, setModalShow] = useState(false);
+
+  function FilterModal(props) {
+    const [fromModal, setFromModal] = useState({
+      beds: 0,
+      baths: 0,
+    });
+
+    function save() {
+      props.onSave(fromModal);
+      console.log(fromModal);
+    }
+
+    function clicked() {
+      props.onHide();
+      save();
+    }
+
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            More Filters
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Beds and Baths {props.setValues}</h4>
+          <Container>
+            <Row>
+              <Col>
+                <p className="mb-1">Bedrooms</p>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                      <HotelIcon fontSize="small" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    type="number"
+                    placeholder="Beds"
+                    onChange={(e) =>
+                      setFromModal({ ...fromModal, beds: e.target.value })
+                    }
+                    className="withIcon"
+                  />
+                </InputGroup>
+              </Col>
+              <Col>
+                <p className="mb-1">Bathrooms</p>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                      <BathtubIcon fontSize="small" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    type="number"
+                    placeholder="Baths"
+                    // onChange={setBath}
+                    onChange={(e) =>
+                      setFromModal({ ...fromModal, baths: e.target.value })
+                    }
+                    className="withIcon"
+                  />
+                </InputGroup>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={props.onHide}>
+            Close
+          </Button>
+          <Button onClick={clicked}>Save</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
   return (
     <div className="listings">
-      <div className="listings__title">Listings</div>
+      {/* <div className="listings__title">Listings</div> */}
 
       <div className="filter">
-        <h2 className="filter__title">Filter</h2>
+        <h2 className="filter__title">Search</h2>
         <Container>
           <Row className="mb-3">
-            <Col>
+            <Col md={3}>
+              <p className="mb-1">Search by MLS&#174; Number</p>
+              <Form.Control
+                type="number"
+                placeholder="MLS&#174; Number"
+                // className="mlsInput"
+                // onChange={(e) => setMinPrice(e.target.value)}
+              />
+            </Col>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "0 10px",
+              }}
+            >
+              <div
+                className="verticalRule"
+                style={{
+                  width: "1px",
+                  height: "50%",
+                  backgroundColor: "lightgray",
+                }}
+              ></div>
+              <p style={{ padding: "40% 5%", marginBottom: "0" }}>OR</p>
+              <div
+                className="verticalRule"
+                style={{
+                  width: "1px",
+                  height: "50%",
+                  backgroundColor: "lightgray",
+                }}
+              ></div>
+            </div>
+
+            <Col md={2}>
+              <p className="mb-1">Property Type</p>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <HomeWorkIcon fontSize="small" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                  as="select"
+                  onChange={(e) => setProperty(e.target.value)}
+                  className="withIcon"
+                >
+                  <option>All</option>
+                  <option>House</option>
+                  <option>Duplex</option>
+                  <option>Triplex</option>
+                  <option>Apartment</option>
+                  <option>Other</option>
+                </Form.Control>
+              </InputGroup>
+            </Col>
+            <Col md={2}>
               <p className="mb-1">Location</p>
               <InputGroup>
                 <InputGroup.Prepend>
@@ -185,6 +341,7 @@ function Listings() {
                 <Form.Control
                   as="select"
                   onChange={(e) => setLocation(e.target.value)}
+                  className="withIcon"
                 >
                   <option value="All">All</option>
                   <option value="Vancouver">Vancouver</option>
@@ -199,28 +356,7 @@ function Listings() {
               </InputGroup>
             </Col>
             <Col>
-              <p className="mb-1">Property Type</p>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>
-                    <HomeWorkIcon fontSize="small" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  as="select"
-                  onChange={(e) => setProperty(e.target.value)}
-                >
-                  <option>All</option>
-                  <option>House</option>
-                  <option>Duplex</option>
-                  <option>Triplex</option>
-                  <option>Apartment</option>
-                  <option>Other</option>
-                </Form.Control>
-              </InputGroup>
-            </Col>
-            <Col>
-              <p className="mb-1">Minimum Price</p>
+              <p className="mb-1">Min. Price</p>
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text>
@@ -231,11 +367,12 @@ function Listings() {
                   type="number"
                   placeholder="Min. Price"
                   onChange={(e) => setMinPrice(e.target.value)}
+                  className="withIcon"
                 />
               </InputGroup>
             </Col>
             <Col>
-              <p className="mb-1">Maximum Price</p>
+              <p className="mb-1">Max. Price</p>
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text>
@@ -246,38 +383,20 @@ function Listings() {
                   type="number"
                   placeholder="Max. Price"
                   onChange={(e) => setMaxPrice(e.target.value)}
+                  className="withIcon"
                 />
               </InputGroup>
             </Col>
-            <Col>
-              <p className="mb-1">Bedrooms</p>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>
-                    <HotelIcon fontSize="small" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  type="number"
-                  placeholder="Beds"
-                  onChange={(e) => setBedrooms(e.target.value)}
-                />
-              </InputGroup>
-            </Col>
-            <Col>
-              <p className="mb-1">Bathrooms</p>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>
-                    <BathtubIcon fontSize="small" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  type="number"
-                  placeholder="Baths"
-                  onChange={(e) => setBathrooms(e.target.value)}
-                />
-              </InputGroup>
+            <Col className="filterBtn">
+              <Button variant="secondary" onClick={() => setModalShow(true)}>
+                More Filters
+              </Button>
+              <FilterModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                // setValues={bathrooms}
+                onSave={handleSave}
+              />
             </Col>
           </Row>
           <Row className="justify-content-center">
@@ -299,7 +418,7 @@ function Listings() {
           <ListingCardBasic
             address={listing?.Property?.Address?.AddressText}
             price={listing?.Property?.Price}
-            image={listing?.Property?.Photo[0]?.HighResPath}
+            image={listing?.Property?.Photo?.[0]?.HighResPath}
             sqft={listing?.Building?.SizeInterior}
           />
         ))}
