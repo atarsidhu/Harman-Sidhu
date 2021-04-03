@@ -2,29 +2,64 @@
   /* width: 80%; */
   margin: auto;
   display: grid;
-  grid-template-columns: 3fr 5fr;
+  grid-template-columns: 1fr 1fr;
 }
 
 .listings__title {
   text-align: center;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   padding: 40px 0;
   grid-column: 1/4;
   background-color: whitesmoke;
 }
 
+/* .filterAndListings {
+  background-color: whitesmoke;
+} */
+
 .filter {
   grid-column: 1/4;
   background-color: whitesmoke;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   padding: 20px;
-  margin: 0 20px;
+  /* margin: 0 20px; */
   min-width: 200px;
   max-height: 620px;
+  /* border-bottom: 1px solid lightgrey; */
+}
+
+.filterBtn {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .filter__title {
   /* padding-left: 15px; */
+}
+
+.form-control:focus ~ .input-group-text {
+  /* transition: none !important; */
+  /* box-shadow: 0 0 5px red !important; */
+  /* border-color: #ced4da !important; */
+}
+
+.input-group:hover {
+  /* box-shadow: 0 0 5px red !important; */
+}
+
+/* TRY TO GET THE ENTIRE INPUT TO HAVE BOXSHADOW ON FOCUS */
+
+.withIcon {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+.input-group-text {
+  padding: 0.375rem !important;
+  background-color: white !important;
+  color: #007bff !important;
+  /* border-right: 1px solid white !important; */
 }
 
 .cards-section {

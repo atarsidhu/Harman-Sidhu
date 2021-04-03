@@ -29,7 +29,7 @@ function Listings() {
   const [location, setLocation] = useState("All");
   const [property, setProperty] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000000);
   const [bedrooms, setBedrooms] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
   const [coordinates, setCoordinates] = useState({
@@ -63,8 +63,8 @@ function Listings() {
         RecordsPerPage: "50",
         LongitudeMin: coordinates.longitudeMin,
         LatitudeMax: coordinates.latitudeMax,
-        BedRange: `${bedrooms}-${bedrooms + 10}`,
-        BathRange: `${bathrooms}-${bathrooms + 10}`,
+        BedRange: `${bedrooms}-0`,
+        BathRange: `${bathrooms}-0`,
         NumberOfDays: "0",
         CultureId: "1",
         PriceMin: `${minPrice}`,
@@ -190,7 +190,6 @@ function Listings() {
 
     function save() {
       props.onSave(fromModal);
-      console.log(fromModal);
     }
 
     function clicked() {
@@ -420,6 +419,8 @@ function Listings() {
             price={listing?.Property?.Price}
             image={listing?.Property?.Photo?.[0]?.HighResPath}
             sqft={listing?.Building?.SizeInterior}
+            baths={listing?.Building?.BathroomTotal}
+            beds={listing?.Building?.Bedrooms}
           />
         ))}
       </div>
