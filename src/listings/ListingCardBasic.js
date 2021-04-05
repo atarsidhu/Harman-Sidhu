@@ -22,10 +22,10 @@ function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
 
         <div className="details__info">
           <span className="info__sqft">
-            {sqftSize} ft<sup>2</sup>
+            &#9679; &nbsp; {sqftSize} ft<sup>2</sup>
           </span>
-          <span className="info__beds">{beds} Bedrooms</span>
-          <span className="info__baths">{baths} Bathrooms</span>
+          <span className="info__beds"> &#9679; &nbsp; {beds} Beds</span>
+          <span className="info__baths"> &#9679; &nbsp; {baths} Baths</span>
         </div>
 
         <div className="details__priceAndLocation">

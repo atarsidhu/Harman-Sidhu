@@ -11,6 +11,7 @@ import {
   InputGroup,
   Button,
   Modal,
+  Spinner,
 } from "react-bootstrap";
 import Map from "./Map";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -19,6 +20,7 @@ import HotelIcon from "@material-ui/icons/Hotel";
 import BathtubIcon from "@material-ui/icons/Bathtub";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { Marker } from "@react-google-maps/api";
+import { usePromiseTracker, trackPromise } from "react-promise-tracker";
 
 function Listings() {
   // Might not need context API: Pull the data here, then we can pass it as
@@ -33,64 +35,102 @@ function Listings() {
   const [bedrooms, setBedrooms] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
   const [coordinates, setCoordinates] = useState({
-    latitudeMin: "",
-    longitudeMin: "",
-    latitudeMax: "",
-    longitudeMax: "",
+    latitudeMin: "49.007816",
+    longitudeMin: "-123.217246",
+    latitudeMax: "49.2806",
+    longitudeMax: "-121.747719",
   });
   const [listings, setListings] = useState([]);
-  // const [listingAddress, setListingAddress] = useState("");
-  // const [listingCity, setListingCity] = useState("");
+  const [mlsNumber, setMlsNumber] = useState("");
+  const [searchMsg, setSearchMsg] = useState(
+    "Use the search bar to begin your search"
+  );
+
+  const LoadingIndicator = (props) => {
+    const { promiseInProgress } = usePromiseTracker();
+    return (
+      promiseInProgress && (
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Spinner animation="grow" role="status" variant="primary">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </div>
+      )
+    );
+  };
 
   /**
    * Filter the results based on the selections made by the user.
    */
   function filterListings() {
-    getCoordinates(location);
+    let options = {};
 
-    // When setting the min and max price, we must also apply the
-    //  TransactionTypeId with the value of 2 for sale (3 is for rent)
-    // PropertySearchTypeId doesnt work with residential (shows storage lockers)
-    //  but works with vacant land
-    let options = {
-      method: "GET",
-      url:
-        "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
-      params: {
-        CurrentPage: "1",
-        LatitudeMin: coordinates.latitudeMin,
-        LongitudeMax: coordinates.longitudeMax,
-        RecordsPerPage: "50",
-        LongitudeMin: coordinates.longitudeMin,
-        LatitudeMax: coordinates.latitudeMax,
-        BedRange: `${bedrooms}-0`,
-        BathRange: `${bathrooms}-0`,
-        NumberOfDays: "0",
-        CultureId: "1",
-        PriceMin: `${minPrice}`,
-        PriceMax: `${maxPrice}`,
-        TransactionTypeId: "2",
-        PropertySearchTypeId: "0",
-        SortBy: "1",
-        BuildingTypeId: "1",
-        SortOrder: "A",
-        RentMin: "0",
-      },
-      headers: {
-        "x-rapidapi-key": REALTOR_API_KEY,
-        "x-rapidapi-host": "realtor-canadian-real-estate.p.rapidapi.com",
-      },
-    };
+    if (mlsNumber === "") {
+      // When setting the min and max price, we must also apply the
+      //  TransactionTypeId with the value of 2 for sale (3 is for rent)
+      // PropertySearchTypeId doesnt work with residential (shows storage lockers)
+      //  but works with vacant land
+      options = {
+        method: "GET",
+        url:
+          "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
+        params: {
+          CurrentPage: "1",
+          LatitudeMin: coordinates.latitudeMin,
+          LongitudeMax: coordinates.longitudeMax,
+          RecordsPerPage: "50",
+          LongitudeMin: coordinates.longitudeMin,
+          LatitudeMax: coordinates.latitudeMax,
+          BedRange: `${bedrooms}-0`,
+          BathRange: `${bathrooms}-0`,
+          NumberOfDays: "0",
+          CultureId: "1",
+          PriceMin: `${minPrice}`,
+          PriceMax: `${maxPrice}`,
+          TransactionTypeId: "2",
+          PropertySearchTypeId: "0",
+          SortBy: "1",
+          BuildingTypeId: "1",
+          SortOrder: "A",
+          RentMin: "0",
+        },
+        headers: {
+          "x-rapidapi-key": REALTOR_API_KEY,
+          "x-rapidapi-host": "realtor-canadian-real-estate.p.rapidapi.com",
+        },
+      };
+    } else {
+      options = {
+        method: "GET",
+        url:
+          "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-by-mls",
+        params: { ReferenceNumber: mlsNumber, CultureId: "1" },
+        headers: {
+          "x-rapidapi-key":
+            "80e5e06efamsh3721e5506312e5bp154b12jsn1037ae2aee63",
+          "x-rapidapi-host": "realtor-canadian-real-estate.p.rapidapi.com",
+        },
+      };
+    }
 
-    axios
-      .request(options)
-      .then(function (response) {
-        setListings(response.data.Results);
-        console.log(listings);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    trackPromise(
+      axios
+        .request(options)
+        .then(function (response) {
+          setListings(response.data.Results);
+          console.log(listings);
+        })
+        .catch(function (error) {
+          console.error(error);
+        })
+    );
   }
 
   /**
@@ -274,8 +314,10 @@ function Listings() {
             <Col md={3}>
               <p className="mb-1">Search by MLS&#174; Number</p>
               <Form.Control
-                type="number"
+                type="text"
                 placeholder="MLS&#174; Number"
+                value={mlsNumber}
+                onInput={(e) => setMlsNumber(e.target.value)}
                 // className="mlsInput"
                 // onChange={(e) => setMinPrice(e.target.value)}
               />
@@ -339,7 +381,7 @@ function Listings() {
                 </InputGroup.Prepend>
                 <Form.Control
                   as="select"
-                  onChange={(e) => setLocation(e.target.value)}
+                  onChange={(e) => getCoordinates(e.target.value)}
                   className="withIcon"
                 >
                   <option value="All">All</option>
@@ -413,16 +455,53 @@ function Listings() {
           <h1 className="pl-3">Listings in {location}</h1>
         )} */}
 
-        {listings?.map((listing) => (
-          <ListingCardBasic
-            address={listing?.Property?.Address?.AddressText}
-            price={listing?.Property?.Price}
-            image={listing?.Property?.Photo?.[0]?.HighResPath}
-            sqft={listing?.Building?.SizeInterior}
-            baths={listing?.Building?.BathroomTotal}
-            beds={listing?.Building?.Bedrooms}
-          />
-        ))}
+        {/* <p style={{ margin: "10px 0 0 10px", color: "gray", fontSize: "14px" }}>
+          Showing {listings.length} results
+        </p> */}
+
+        {/* listings?.map((listing) => (
+            <ListingCardBasic
+              address={listing?.Property?.Address?.AddressText}
+              price={listing?.Property?.Price}
+              image={listing?.Property?.Photo?.[0]?.HighResPath}
+              sqft={listing?.Building?.SizeInterior}
+              baths={listing?.Building?.BathroomTotal}
+              beds={listing?.Building?.Bedrooms}
+            />
+          )) */}
+
+        {listings.length === 0 ? (
+          <div
+            style={{
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <p
+              style={{
+                color: "gray",
+              }}
+            >
+              {searchMsg}
+            </p>
+          </div>
+        ) : (
+          <>
+            <LoadingIndicator />
+            {listings?.map((listing) => (
+              <ListingCardBasic
+                address={listing?.Property?.Address?.AddressText}
+                price={listing?.Property?.Price}
+                image={listing?.Property?.Photo?.[0]?.HighResPath}
+                sqft={listing?.Building?.SizeInterior}
+                baths={listing?.Building?.BathroomTotal}
+                beds={listing?.Building?.Bedrooms}
+              />
+            ))}
+          </>
+        )}
       </div>
 
       <Map />

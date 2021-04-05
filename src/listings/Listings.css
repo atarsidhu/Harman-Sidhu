@@ -63,8 +63,10 @@
 }
 
 .cards-section {
-  height: 700px;
+  height: 637px;
   overflow-x: overlay;
+  /* margin-bottom: 40px; */
+  /* background-color: whitesmoke; */
 }
 
 .cards-section::-webkit-scrollbar {
