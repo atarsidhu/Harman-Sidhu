@@ -28,8 +28,7 @@ function Listings() {
 
   const REALTOR_API_KEY = process.env.REACT_APP_REALTOR_API_KEY;
 
-  const [location, setLocation] = useState("All");
-  const [property, setProperty] = useState("All");
+  const [property, setProperty] = useState("0");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
   const [bedrooms, setBedrooms] = useState(0);
@@ -45,7 +44,13 @@ function Listings() {
   const [searchMsg, setSearchMsg] = useState(
     "Use the search bar to begin your search"
   );
+  const [modalShow, setModalShow] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [isLand, setIsLand] = useState(false);
 
+  /**
+   * Loading indicator for when the API is being called
+   */
   const LoadingIndicator = (props) => {
     const { promiseInProgress } = usePromiseTracker();
     return (
@@ -70,68 +75,135 @@ function Listings() {
    * Filter the results based on the selections made by the user.
    */
   function filterListings() {
-    let options = {};
+    const newErrors = findErrors();
+    console.log(property);
 
-    if (mlsNumber === "") {
-      // When setting the min and max price, we must also apply the
-      //  TransactionTypeId with the value of 2 for sale (3 is for rent)
-      // PropertySearchTypeId doesnt work with residential (shows storage lockers)
-      //  but works with vacant land
-      options = {
-        method: "GET",
-        url:
-          "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
-        params: {
-          CurrentPage: "1",
-          LatitudeMin: coordinates.latitudeMin,
-          LongitudeMax: coordinates.longitudeMax,
-          RecordsPerPage: "50",
-          LongitudeMin: coordinates.longitudeMin,
-          LatitudeMax: coordinates.latitudeMax,
-          BedRange: `${bedrooms}-0`,
-          BathRange: `${bathrooms}-0`,
-          NumberOfDays: "0",
-          CultureId: "1",
-          PriceMin: `${minPrice}`,
-          PriceMax: `${maxPrice}`,
-          TransactionTypeId: "2",
-          PropertySearchTypeId: "0",
-          SortBy: "1",
-          BuildingTypeId: "1",
-          SortOrder: "A",
-          RentMin: "0",
-        },
-        headers: {
-          "x-rapidapi-key": REALTOR_API_KEY,
-          "x-rapidapi-host": "realtor-canadian-real-estate.p.rapidapi.com",
-        },
-      };
+    if (property === "4" || property === "6") {
+      setIsLand(true);
     } else {
-      options = {
-        method: "GET",
-        url:
-          "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-by-mls",
-        params: { ReferenceNumber: mlsNumber, CultureId: "1" },
-        headers: {
-          "x-rapidapi-key":
-            "80e5e06efamsh3721e5506312e5bp154b12jsn1037ae2aee63",
-          "x-rapidapi-host": "realtor-canadian-real-estate.p.rapidapi.com",
-        },
-      };
+      setIsLand(false);
     }
 
-    trackPromise(
-      axios
-        .request(options)
-        .then(function (response) {
-          setListings(response.data.Results);
-          console.log(listings);
-        })
-        .catch(function (error) {
-          console.error(error);
-        })
-    );
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      let options = {};
+      let newOptions = {};
+
+      if (mlsNumber === "") {
+        // When setting the min and max price, we must also apply the
+        //  TransactionTypeId with the value of 2 for sale (3 is for rent)
+        // PropertySearchTypeId doesnt work with residential (shows storage lockers)
+        //  but works with vacant land
+        options = {
+          method: "GET",
+          url:
+            "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
+          params: {
+            CurrentPage: "1",
+            LatitudeMin: coordinates.latitudeMin,
+            LongitudeMax: coordinates.longitudeMax,
+            RecordsPerPage: "50",
+            LongitudeMin: coordinates.longitudeMin,
+            LatitudeMax: coordinates.latitudeMax,
+            BedRange: `${bedrooms}-0`,
+            BathRange: `${bathrooms}-0`,
+            NumberOfDays: "0",
+            CultureId: "1",
+            PriceMin: `${minPrice}`,
+            PriceMax: `${maxPrice}`,
+            TransactionTypeId: "2",
+            PropertySearchTypeId: "0",
+            SortBy: "1",
+            BuildingTypeId: "1",
+            SortOrder: "A",
+            RentMin: "0",
+          },
+          headers: {
+            "x-rapidapi-key": REALTOR_API_KEY,
+            "x-rapidapi-host": "realtor-canadian-real-estate.p.rapidapi.com",
+          },
+        };
+
+        if (property === "0") {
+          // If All is selected, set values to 0 to show all
+          newOptions = {
+            ...options,
+            params: {
+              ...options.params,
+              BuildingTypeId: 0,
+              PropertySearchTypeId: 0,
+            },
+          };
+        } else if (property === "1") {
+          // If house if selected, set values to 1,0 to show houses
+          newOptions = {
+            ...options,
+            params: {
+              ...options.params,
+              BuildingTypeId: 1,
+              PropertySearchTypeId: 0,
+            },
+          };
+        } else {
+          // If house or all is not selected, set the PropertySearchTypeId value to the selected value
+          newOptions = {
+            ...options,
+            params: {
+              ...options.params,
+              BuildingTypeId: 0,
+              PropertySearchTypeId: property,
+            },
+          };
+        }
+      } else {
+        // MLS Search
+
+        newOptions = {
+          method: "GET",
+          url:
+            "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-by-mls",
+          params: { ReferenceNumber: mlsNumber, CultureId: "1" },
+          headers: {
+            "x-rapidapi-key":
+              "80e5e06efamsh3721e5506312e5bp154b12jsn1037ae2aee63",
+            "x-rapidapi-host": "realtor-canadian-real-estate.p.rapidapi.com",
+          },
+        };
+      }
+
+      trackPromise(
+        axios
+          .request(newOptions)
+          .then(function (response) {
+            setListings(response.data.Results);
+            console.log(listings);
+          })
+          .catch(function (error) {
+            console.error(error);
+          })
+      );
+    }
   }
+
+  const findErrors = () => {
+    const newErrors = {};
+
+    if (
+      (mlsNumber.length > 0 && mlsNumber.length < 8) ||
+      mlsNumber.length > 8 ||
+      (mlsNumber > 0 && mlsNumber.charAt(0) !== "R")
+    ) {
+      newErrors.mls = "Invalid MLS number!";
+    }
+
+    if (maxPrice < minPrice) {
+      newErrors.price = "Max Price cannot be less than Min Price!";
+    }
+
+    return newErrors;
+  };
 
   /**
    * Determines the minimum and maximum GPS coordinates of the selected location.
@@ -215,13 +287,47 @@ function Listings() {
     }
   }
 
+  /**
+   * Determines the designated integer for the selected property
+   * @param {String} type - The type of property selected by the user
+   */
+  // function propertyType(type) {
+  //   switch (type) {
+  //     case "All":
+  //       setProperty(0);
+  //       break;
+  //     case "House":
+  //       setProperty(1);
+  //       break;
+  //     case "Condo/Strata":
+  //       setProperty(3);
+  //       break;
+  //     case "Agriculture":
+  //       setProperty(4);
+  //       break;
+  //     case "Vacant Land":
+  //       setProperty(6);
+  //       break;
+  //     case "Multi Family":
+  //       setProperty(8);
+  //       break;
+  //   }
+  // }
+
+  /**
+   * Set the data from the modal to the parent variables
+   * @param {Object} fromModal - Data returned from modal
+   */
   function handleSave(fromModal) {
     setBathrooms(fromModal.baths);
     setBedrooms(fromModal.beds);
   }
 
-  const [modalShow, setModalShow] = useState(false);
-
+  /**
+   * Display the more filters modal and save the data
+   * @param {*} props - Props to be passed to the modal
+   * @returns More filters modal
+   */
   function FilterModal(props) {
     const [fromModal, setFromModal] = useState({
       beds: 0,
@@ -318,9 +424,13 @@ function Listings() {
                 placeholder="MLS&#174; Number"
                 value={mlsNumber}
                 onInput={(e) => setMlsNumber(e.target.value)}
+                isInvalid={!!errors.mls}
                 // className="mlsInput"
                 // onChange={(e) => setMinPrice(e.target.value)}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.mls}
+              </Form.Control.Feedback>
             </Col>
             <div
               style={{
@@ -362,12 +472,12 @@ function Listings() {
                   onChange={(e) => setProperty(e.target.value)}
                   className="withIcon"
                 >
-                  <option>All</option>
-                  <option>House</option>
-                  <option>Duplex</option>
-                  <option>Triplex</option>
-                  <option>Apartment</option>
-                  <option>Other</option>
+                  <option value="0">All</option>
+                  <option value="1">House</option>
+                  <option value="3">Condo/Strata</option>
+                  <option value="4">Agriculture</option>
+                  <option value="6">Vacant Land</option>
+                  <option value="8">Multi Family</option>
                 </Form.Control>
               </InputGroup>
             </Col>
@@ -425,23 +535,28 @@ function Listings() {
                   placeholder="Max. Price"
                   onChange={(e) => setMaxPrice(e.target.value)}
                   className="withIcon"
+                  isInvalid={!!errors.price}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.price}
+                </Form.Control.Feedback>
               </InputGroup>
-            </Col>
-            <Col className="filterBtn">
-              <Button variant="secondary" onClick={() => setModalShow(true)}>
-                More Filters
-              </Button>
-              <FilterModal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                // setValues={bathrooms}
-                onSave={handleSave}
-              />
             </Col>
           </Row>
           <Row className="justify-content-center">
-            <Button variant="primary" onClick={filterListings}>
+            <Button variant="secondary" onClick={() => setModalShow(true)}>
+              More Filters
+            </Button>
+            <FilterModal
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              onSave={handleSave}
+            />
+            <Button
+              variant="primary"
+              onClick={filterListings}
+              style={{ marginLeft: "15px" }}
+            >
               Search
             </Button>
           </Row>
@@ -449,26 +564,9 @@ function Listings() {
       </div>
 
       <div className="cards-section">
-        {/* {location === "All" ? (
-          <h1 className="pl-3">All Listings</h1>
-        ) : (
-          <h1 className="pl-3">Listings in {location}</h1>
-        )} */}
-
         {/* <p style={{ margin: "10px 0 0 10px", color: "gray", fontSize: "14px" }}>
           Showing {listings.length} results
         </p> */}
-
-        {/* listings?.map((listing) => (
-            <ListingCardBasic
-              address={listing?.Property?.Address?.AddressText}
-              price={listing?.Property?.Price}
-              image={listing?.Property?.Photo?.[0]?.HighResPath}
-              sqft={listing?.Building?.SizeInterior}
-              baths={listing?.Building?.BathroomTotal}
-              beds={listing?.Building?.Bedrooms}
-            />
-          )) */}
 
         {listings.length === 0 ? (
           <div
@@ -490,12 +588,17 @@ function Listings() {
         ) : (
           <>
             <LoadingIndicator />
+            {/* EVERYTIME YOU CHANGE PROPERTY, IT LOADS NEW SQFT. NEED TO CHANGE TO SEARCH */}
             {listings?.map((listing) => (
               <ListingCardBasic
                 address={listing?.Property?.Address?.AddressText}
                 price={listing?.Property?.Price}
                 image={listing?.Property?.Photo?.[0]?.HighResPath}
-                sqft={listing?.Building?.SizeInterior}
+                sqft={
+                  isLand
+                    ? listing?.Land?.SizeTotal
+                    : listing?.Building?.SizeInterior
+                }
                 baths={listing?.Building?.BathroomTotal}
                 beds={listing?.Building?.Bedrooms}
               />
@@ -508,5 +611,15 @@ function Listings() {
     </div>
   );
 }
+
+// if (property === 4 || property === 6) {
+//   // Agriculture or Vacant Land
+//   // Nothing in Building obj
+//   //  SQFT is in Land.SizeTotal
+// } else {
+//   // Houses
+//   // Multi Family has no beds and baths in Building
+//   // Property === 3 (Condo/Strata contains a lot of lockers (as its sorted by price - lockers are the cheapest))
+// }
 
 export default Listings;

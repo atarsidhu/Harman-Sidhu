@@ -14,16 +14,19 @@
   grid-template-columns: 1fr 1fr;
   /* background-color: azure; */
   color: rgb(90, 90, 90);
+  /* max-height: 200px; */
 }
 
 .card__image {
   padding: 20px;
+  /* height: 100px; */
 }
 
 .card__details {
   padding: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  /* height: fit-content; */
 }
 
 .separator {
@@ -87,6 +90,6 @@
   width: 100%;
   /* object-fit: contain; */
   border-radius: 10px;
-  border: 1px solid lightgrey;
-  box-shadow: 4px 4px 5px gray;
+  /* border: 1px solid lightgrey; */
+  box-shadow: 0px 0px 6px gray;
 }

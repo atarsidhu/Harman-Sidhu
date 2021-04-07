@@ -7,25 +7,43 @@ import BathtubIcon from "@material-ui/icons/Bathtub";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
-  const [title, cityWithPostalCode] = address?.split("|");
-  const [city] = cityWithPostalCode.split(",");
-  const [sqftSize] = sqft.split(" ");
+  let title,
+    cityWithPostalCode,
+    city,
+    sqftSize = "";
+
+  if (address !== "Address not available") {
+    [title, cityWithPostalCode] = address?.split("|");
+    [city] = cityWithPostalCode.split(",");
+  }
+
+  // [sqftSize] = sqft?.split(" ");
 
   return (
     <div className="card-basic">
       <div className="card__image">
-        <img src={image} alt="house" className="propertyImage" />
+        <img src={image} alt={title} className="propertyImage" />
       </div>
 
       <div className="card__details">
         <span className="details__title">{title}</span>
 
         <div className="details__info">
-          <span className="info__sqft">
-            &#9679; &nbsp; {sqftSize} ft<sup>2</sup>
-          </span>
-          <span className="info__beds"> &#9679; &nbsp; {beds} Beds</span>
-          <span className="info__baths"> &#9679; &nbsp; {baths} Baths</span>
+          {typeof sqft === "undefined" ? null : (
+            <span className="info__sqft">
+              &#9679; &nbsp; {sqft}
+              {/* ft<sup>2</sup> */}
+            </span>
+          )}
+          {typeof beds === "undefined" ? null : (
+            <>
+              <span className="info__beds"> &#9679; &nbsp; {beds} Beds</span>
+              <span className="info__baths">
+                {" "}
+                &#9679; &nbsp; {baths} Baths
+              </span>{" "}
+            </>
+          )}
         </div>
 
         <div className="details__priceAndLocation">
