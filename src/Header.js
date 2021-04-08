@@ -9,7 +9,7 @@ function Header() {
   const handleScroll = () => {
     const offset = window.scrollY;
 
-    if (offset > 100) {
+    if (offset > 60) {
       setSticky(true);
     } else {
       setSticky(false);
