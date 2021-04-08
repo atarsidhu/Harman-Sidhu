@@ -21,18 +21,37 @@ function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
 
   return (
     <div className="card-basic">
-      <div className="card__image">
-        <img src={image} alt={title} className="propertyImage" />
+      <div className="wrapper">
+        <div className="address-wrapper">
+          <span className="address">{title}</span>
+        </div>
+
+        <img
+          src={
+            image
+              ? image
+              : "https://cdn.realtor.ca/listings/TS637533235340900000/reb6/highres/9/R2560309_1.jpg"
+          }
+          alt={title}
+          className="propertyImage"
+        />
+        <div className="bottom-wrapper">
+          <span className="price">{price}</span>
+          <span className="location">
+            <LocationOnIcon fontSize="small" className="icon" />
+            {city}, BC
+          </span>
+        </div>
       </div>
 
-      <div className="card__details">
+      {/* <div className="card__details">
         <span className="details__title">{title}</span>
 
         <div className="details__info">
           {typeof sqft === "undefined" ? null : (
             <span className="info__sqft">
               &#9679; &nbsp; {sqft}
-              {/* ft<sup>2</sup> */}
+              ft<sup>2</sup>
             </span>
           )}
           {typeof beds === "undefined" ? null : (
@@ -53,9 +72,9 @@ function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
             {city}, BC
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="separator">
+      {/* <div className="separator">
         <hr
           style={{
             // position: "absolute",
@@ -64,7 +83,7 @@ function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
             margin: "0",
           }}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

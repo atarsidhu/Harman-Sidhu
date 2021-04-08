@@ -75,6 +75,19 @@ function Home() {
           <ListingCardBasic /> */}
         </div>
       </div>
+
+      <div className="about-section">
+        <h1>About Me</h1>
+        <p>
+          Some info about me, very brief. More info button that leads to about
+          page..
+        </p>
+      </div>
+
+      <div className="contact-section">
+        <h1>Let's Get In Touch</h1>
+        <p>Call at..</p>
+      </div>
     </div>
   );
 }

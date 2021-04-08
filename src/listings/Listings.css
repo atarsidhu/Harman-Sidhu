@@ -1,16 +1,17 @@
 .listings {
   /* width: 80%; */
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  padding: 0 10%;
+  /* display: grid;
+  grid-template-columns: 1fr; */
+  display: flex;
+  flex-flow: column nowrap;
+  /* overflow-x: overlay; */
+  background-color: whitesmoke;
+  min-height: calc(100vh - 60px);
 }
 
-.listings__title {
-  text-align: center;
-  /* margin-bottom: 20px; */
-  padding: 40px 0;
-  grid-column: 1/4;
-  background-color: whitesmoke;
+.listings::-webkit-scrollbar {
+  display: none;
 }
 
 /* .filterAndListings {
@@ -19,13 +20,15 @@
 
 .filter {
   grid-column: 1/4;
-  background-color: whitesmoke;
-  /* border-radius: 10px; */
+  background-color: white;
+  border-radius: 20px;
   padding: 20px;
-  /* margin: 0 20px; */
+  margin-top: 30px;
+  /* margin: 20px 0; */
   min-width: 200px;
   max-height: 620px;
   /* border-bottom: 1px solid lightgrey; */
+  box-shadow: 0 0 7px darkgray;
 }
 
 .filterBtn {
@@ -72,10 +75,12 @@
 }
 
 .cards-section {
-  height: 637px;
-  overflow-x: overlay;
+  min-height: calc(100vh - 290px);
+  /* overflow-x: overlay; */
   /* margin-bottom: 40px; */
   /* background-color: whitesmoke; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .cards-section::-webkit-scrollbar {

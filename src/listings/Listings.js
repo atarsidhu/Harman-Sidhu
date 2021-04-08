@@ -41,9 +41,7 @@ function Listings() {
   });
   const [listings, setListings] = useState([]);
   const [mlsNumber, setMlsNumber] = useState("");
-  const [searchMsg, setSearchMsg] = useState(
-    "Use the search bar to begin your search"
-  );
+  const [searchMsg, setSearchMsg] = useState("Use the search bar to begin");
   const [modalShow, setModalShow] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLand, setIsLand] = useState(false);
@@ -51,16 +49,17 @@ function Listings() {
   /**
    * Loading indicator for when the API is being called
    */
-  const LoadingIndicator = (props) => {
+  const LoadingIndicator = () => {
     const { promiseInProgress } = usePromiseTracker();
     return (
       promiseInProgress && (
         <div
           style={{
-            height: "100%",
+            height: "calc(100vh - 290px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            gridColumn: "1/4",
           }}
         >
           <Spinner animation="grow" role="status" variant="primary">
@@ -414,7 +413,7 @@ function Listings() {
       {/* <div className="listings__title">Listings</div> */}
 
       <div className="filter">
-        <h2 className="filter__title">Search</h2>
+        <h2 className="filter__title">Search Listings</h2>
         <Container>
           <Row className="mb-3">
             <Col md={3}>
@@ -544,7 +543,11 @@ function Listings() {
             </Col>
           </Row>
           <Row className="justify-content-center">
-            <Button variant="secondary" onClick={() => setModalShow(true)}>
+            <Button
+              variant="secondary"
+              onClick={() => setModalShow(true)}
+              style={{ marginLeft: "-36px" }}
+            >
               More Filters
             </Button>
             <FilterModal
@@ -575,6 +578,7 @@ function Listings() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              gridColumn: "1/4",
             }}
           >
             <p
@@ -607,7 +611,7 @@ function Listings() {
         )}
       </div>
 
-      <Map />
+      {/* <Map /> */}
     </div>
   );
 }

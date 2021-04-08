@@ -1,85 +1,98 @@
 .card-basic {
   /* display: flex;
   flex-direction: column; */
-  /* background-color: white; */
-  /* border-radius: 10px; */
-  /* box-shadow: 0 0 7px black; */
-  /* margin: 20px; */
-  /* justify-content: center; */
-  /* background-image: url("../house-3.jpg");
-  background-position: center;
-  background-size: cover; */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 7px black;
+  margin: 20px;
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* background-color: azure; */
+  display: flex;
   color: rgb(90, 90, 90);
   /* max-height: 200px; */
 }
 
-.card__image {
-  padding: 20px;
-  /* height: 100px; */
+.wrapper {
+  /* padding: 20px; */
+  /* max-height: 250px; */
+  position: relative;
+  /* display: flex; */
+  flex-flow: column nowrap;
 }
 
-.card__details {
-  padding: 20px;
+/* .card__details {
+  padding: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* height: fit-content; */
+  height: fit-content;
+  width: 100%;
+} */
+
+.address-wrapper {
+  position: absolute;
+  width: 100%;
+  background-image: linear-gradient(rgb(60, 60, 60), transparent);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px;
 }
 
-.separator {
-  grid-column: 1/4;
-  margin: 0 20px;
-}
-
-.card-basic .details__title {
-  font-size: 20px;
-  grid-column: 1/3;
+.card-basic .address {
+  font-size: 18px;
   font-weight: 500;
+  color: white;
+  padding: 10px;
+  text-shadow: 2px 2px 10px black;
 }
 
-.details__info {
+/* .details__info {
   grid-column: 1/2;
   display: flex;
   flex-direction: column;
   font-size: 14px;
   justify-content: space-between;
   color: gray;
-}
+  padding-left: 10px;
+} */
 
-.details__priceAndLocation {
-  grid-column: 1/3;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: flex-end;
-}
-
-.card-basic .info__sqft {
-  /* font-size: 15px; */
-  /* padding: 15px; */
-  /* padding-top: 20px; */
-  /* font-weight: 500; */
-}
-
-.card-basic .details__price {
-  font-size: 24px;
+.card-basic .price {
+  font-size: 20px;
   font-weight: 500;
   /* color: #007bff !important; */
+  padding-left: 10px;
+  color: white;
+  text-shadow: 2px 2px 10px black;
 }
 
-.card-basic .details__location {
-  min-height: 60px;
+.card-basic .bottom-wrapper {
+  /* max-width: 300px; */
+
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  /* padding-bottom: 10px; */
+  padding: 10px;
   font-size: 14px;
+  background-image: linear-gradient(to top, rgb(60, 60, 60), transparent);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.location {
+  margin-right: 6px;
+  background-color: #007bff;
+  border-radius: 20px;
+  padding: 2px 10px 2px 7px;
+  color: white;
+  max-height: 30px;
 }
 
 .icon {
   /* color: #007bff !important; */
-  color: gray !important;
+  /* color: gray !important; */
+  color: white !important;
   padding-bottom: 3px;
   /* z-index: 1; */
   font-size: 18px !important;
@@ -88,8 +101,10 @@
 .card-basic .propertyImage {
   height: 100%;
   width: 100%;
-  /* object-fit: contain; */
+  object-fit: cover;
   border-radius: 10px;
+  /* border-top-left-radius: 10px; */
+  /* border-bottom-left-radius: 10px; */
   /* border: 1px solid lightgrey; */
-  box-shadow: 0px 0px 6px gray;
+  /* box-shadow: 0px 0px 6px gray; */
 }
