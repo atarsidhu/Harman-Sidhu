@@ -3,6 +3,9 @@ import "./Home.css";
 import { CarouselProvider, Slider, Slide, DotGroup } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import ListingCardBasic from "../listings/ListingCardBasic";
+import PhoneIcon from "@material-ui/icons/Phone";
+import EmailIcon from "@material-ui/icons/Email";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
 
 function Home() {
   return (
@@ -66,7 +69,7 @@ function Home() {
       </div>
 
       <div className="listings-section">
-        <h1 className="listings__title">Featured Listings</h1>
+        <h1 className="listings__title mb-5">Featured Listing</h1>
         <div className="listings__cards">
           {/* Wont work unless we pass in props */}
           {/* <ListingCardBasic />
@@ -77,16 +80,40 @@ function Home() {
       </div>
 
       <div className="about-section">
-        <h1>About Me</h1>
-        <p>
-          Some info about me, very brief. More info button that leads to about
-          page..
+        <h1 className="mb-5">About Me</h1>
+        <p className="text-left">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
+          culpa amet corporis labore eveniet a dolores doloribus est dolorum.
+          Quod magni totam cupiditate quo repellendus dicta blanditiis ea qui
+          aliquid eum minima illo corporis ratione atque ex eaque repudiandae
+          cum voluptas, neque iure doloremque magnam cumque error nisi! Odit,
+          ea?
         </p>
+        <button className="btn btn-primary mt-5">Learn More</button>
       </div>
 
       <div className="contact-section">
-        <h1>Let's Get In Touch</h1>
-        <p>Call at..</p>
+        <h1 className="mb-5">Let's Get In Touch</h1>
+        <div className="contact__info">
+          <div className="info__phone">
+            <div className="contact__circle">
+              <PhoneIcon className="contact-icon" />
+            </div>
+            <p>604 - 593 - 6188</p>
+          </div>
+          <div className="info__email">
+            <div className="contact__circle">
+              <EmailIcon className="contact-icon" />
+            </div>
+            <p>harman@harmansidhu.ca</p>
+          </div>
+          <div className="info__office">
+            <div className="contact__circle">
+              <LocationCityIcon className="contact-icon" />
+            </div>
+            <p>305 -15288 54A Avenue Surrey, British Columbia V3S6T4</p>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -94,5 +121,6 @@ function Home() {
 
 // For each cheque childrens donation
 // Add remax logo in footer
+// Services section?
 
 export default Home;
