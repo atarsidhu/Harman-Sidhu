@@ -1,0 +1,41 @@
+.about {
+  padding: 50px 150px;
+  background-color: whitesmoke;
+  min-height: calc(100vh - 80px);
+}
+
+.about h1 {
+  color: rgb(40, 40, 40);
+}
+
+hr {
+  border-top: 1px solid #007bff !important;
+  margin-bottom: 30px;
+  width: 70%;
+}
+
+.about__content {
+  display: flex;
+}
+
+.content__info {
+  padding-right: 50px;
+  flex: 1.5;
+}
+
+.info-bottom {
+  font-weight: 500;
+}
+
+.content__photo {
+  flex: 1;
+  overflow: hidden;
+  /* padding: 18px 0; */
+}
+
+.content-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* object-position: top; */
+}
