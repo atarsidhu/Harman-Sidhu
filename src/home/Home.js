@@ -69,7 +69,7 @@ function Home() {
       </div>
 
       <div className="listings-section">
-        <h1 className="listings__title mb-5">Featured Listing</h1>
+        <h1 className="mb-5">Featured Listing</h1>
         <div className="listings__cards">
           {/* Wont work unless we pass in props */}
           {/* <ListingCardBasic />
@@ -81,7 +81,7 @@ function Home() {
 
       <div className="about-section">
         <h1 className="mb-5">About Me</h1>
-        <p className="text-left">
+        <p className="text-left lead">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
           culpa amet corporis labore eveniet a dolores doloribus est dolorum.
           Quod magni totam cupiditate quo repellendus dicta blanditiis ea qui
@@ -89,7 +89,9 @@ function Home() {
           cum voluptas, neque iure doloremque magnam cumque error nisi! Odit,
           ea?
         </p>
-        <button className="btn btn-primary mt-5">Learn More</button>
+        <a href="/about" className="btn btn-primary mt-5">
+          Learn More
+        </a>
       </div>
 
       <div className="contact-section">
@@ -99,19 +101,24 @@ function Home() {
             <div className="contact__circle">
               <PhoneIcon className="contact-icon" />
             </div>
-            <p>604 - 593 - 6188</p>
+            <h2 className="contact-info-title">Phone</h2>
+            <p className="lead">604 - 593 - 6188</p>
           </div>
           <div className="info__email">
             <div className="contact__circle">
               <EmailIcon className="contact-icon" />
             </div>
-            <p>harman@harmansidhu.ca</p>
+            <h2 className="contact-info-title">Email</h2>
+            <p className="lead">harman@harmansidhu.ca</p>
           </div>
           <div className="info__office">
             <div className="contact__circle">
               <LocationCityIcon className="contact-icon" />
             </div>
-            <p>305 -15288 54A Avenue Surrey, British Columbia V3S6T4</p>
+            <h2 className="contact-info-title">Address</h2>
+            <p className="lead">
+              305 -15288 54A Avenue Surrey, British Columbia V3S6T4
+            </p>
           </div>
         </div>
       </div>
