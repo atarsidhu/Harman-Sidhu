@@ -4,21 +4,20 @@
   padding-bottom: 50px;
 }
 
-.contact__header {
+.page__header {
   margin-bottom: 50px;
-  /* padding: 0 150px; */
-  /* width: 100%; */
   height: 150px;
-  /* background-image: url(/public/images/remax-blueprint.png); */
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
 }
 
-.page-header {
+.header-title {
   position: absolute;
-  left: calc(50% - 116px);
+  left: 50px;
   top: calc(150px - 43px);
   color: white;
   font-weight: 600;
-  text-shadow: 0 0 5px black;
   z-index: 1;
 }
 
@@ -35,16 +34,21 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 79, 163, 0.8);
+  background-image: linear-gradient(
+    to right,
+    rgb(0, 0, 60, 0.9),
+    rgb(0, 0, 60, 0.6)
+  );
   /* transition: all 0.3s linear; */
 }
 
 .page-header-background {
   position: absolute;
-  width: 100%;
+  width: 95%;
   height: inherit;
   object-fit: cover;
-  object-position: 0px 10%;
+  object-position: 0px 75%;
+  padding-left: 20%;
 }
 
 .contact__body {
@@ -56,15 +60,13 @@
   font-weight: 300;
   color: rgb(40, 40, 40);
   font-size: 60px;
-  /* text-align: center; */
 }
 
 .wrapper-question {
   font-weight: 400;
-  color: #007bff;
+  color: #9b9b7c;
   font-size: 30px;
   margin-bottom: 20px;
-  /* text-align: center; */
 }
 
 .contact__wrapper {
@@ -80,6 +82,11 @@
   box-shadow: 0 0 5px lightgray;
 }
 
+.wrapper__form Button {
+  background-color: #939343 !important;
+  border-color: #939343 !important;
+}
+
 /* Remove arrows from inupt field */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -93,14 +100,19 @@ input[type="number"] {
 }
 
 .wrapper__info {
-  background-color: rgb(199, 234, 255);
+  background-color: #e4e4ad;
+  height: fit-content;
   border-radius: 10px;
   padding: 30px;
   box-shadow: 0 0 5px lightgray;
 }
 
+.google {
+  width: 100%;
+  height: 150px;
+}
+
 .wrapper__info h4 {
-  /* color: #007bff; */
   font-weight: 400;
   margin-bottom: 20px;
   font-size: 26px;

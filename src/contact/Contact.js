@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Contact.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import Map from "../listings/Map";
+import { Marker } from "@react-google-maps/api";
 
 function Contact() {
   const [validated, setValidated] = useState(false);
@@ -55,8 +57,8 @@ function Contact() {
 
   return (
     <div className="contact">
-      <div className="contact__header">
-        <h1 className="page-header display-3">CONTACT</h1>
+      <div className="page__header">
+        <h1 className="header-title display-3">CONTACT</h1>
         <div className="header__image">
           <img
             src="/images/remax.png"
@@ -142,7 +144,7 @@ function Contact() {
                     <Form.Control
                       as="textarea"
                       placeholder="Your Message"
-                      rows={3}
+                      rows={4}
                       required
                       isInvalid={!!errors.message}
                       onInput={(e) => setMessage(e.target.value)}
@@ -162,16 +164,20 @@ function Contact() {
               </Row>
             </Form>
           </div>
+
           <div className="wrapper__info">
-            <h4>General Information</h4>
-            <p className="info-title">Phone Number</p>
-            <p className="lead">604-593-6188</p>
-            <p className="info-title">Email Address</p>
-            <p className="lead">harman@harmansidhu.ca</p>
-            <p className="info-title">Office Location</p>
-            <p className="lead">
-              305 -15288 54A Avenue Surrey, British Columbia V3S6T4
-            </p>
+            <div className="info__general">
+              <h4>General Information</h4>
+              <p className="info-title">Phone Number</p>
+              <p className="lead">604-600-5854</p>
+              <p className="info-title">Email Address</p>
+              <p className="lead">harman@harmansidhu.ca</p>
+              <p className="info-title">Office Location</p>
+              <p className="lead">
+                305 -15288 54A Avenue Surrey, British Columbia V3S6T4
+              </p>
+            </div>
+            <Map type={"contact"} />
           </div>
         </div>
       </div>
