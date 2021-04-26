@@ -74,6 +74,7 @@ function Listings() {
    * Filter the results based on the selections made by the user.
    */
   function filterListings() {
+    window.scrollTo(0, 170);
     const newErrors = findErrors();
     console.log(property);
 
@@ -411,206 +412,215 @@ function Listings() {
   return (
     <div className="listings">
       {/* <div className="listings__title">Listings</div> */}
-
-      <div className="filter">
-        <h2 className="filter__title">Search Listings</h2>
-        <Container>
-          <Row className="mb-3">
-            <Col md={3}>
-              <p className="mb-1">Search by MLS&#174; Number</p>
-              <Form.Control
-                type="text"
-                placeholder="MLS&#174; Number"
-                value={mlsNumber}
-                onInput={(e) => setMlsNumber(e.target.value)}
-                isInvalid={!!errors.mls}
-                // className="mlsInput"
-                // onChange={(e) => setMinPrice(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.mls}
-              </Form.Control.Feedback>
-            </Col>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "0 10px",
-              }}
-            >
-              <div
-                className="verticalRule"
-                style={{
-                  width: "1px",
-                  height: "50%",
-                  backgroundColor: "lightgray",
-                }}
-              ></div>
-              <p style={{ padding: "40% 5%", marginBottom: "0" }}>OR</p>
-              <div
-                className="verticalRule"
-                style={{
-                  width: "1px",
-                  height: "50%",
-                  backgroundColor: "lightgray",
-                }}
-              ></div>
-            </div>
-
-            <Col md={2}>
-              <p className="mb-1">Property Type</p>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>
-                    <HomeWorkIcon fontSize="small" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  as="select"
-                  onChange={(e) => setProperty(e.target.value)}
-                  className="withIcon"
-                >
-                  <option value="0">All</option>
-                  <option value="1">House</option>
-                  <option value="3">Condo/Strata</option>
-                  <option value="4">Agriculture</option>
-                  <option value="6">Vacant Land</option>
-                  <option value="8">Multi Family</option>
-                </Form.Control>
-              </InputGroup>
-            </Col>
-            <Col md={2}>
-              <p className="mb-1">Location</p>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>
-                    <LocationOnIcon fontSize="small" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  as="select"
-                  onChange={(e) => getCoordinates(e.target.value)}
-                  className="withIcon"
-                >
-                  <option value="All">All</option>
-                  <option value="Vancouver">Vancouver</option>
-                  <option value="Richmond">Richmond</option>
-                  <option value="Surrey">Surrey</option>
-                  <option value="White Rock">White Rock</option>
-                  <option value="Langley">Langley</option>
-                  <option value="Burnaby">Burnaby</option>
-                  <option value="Abbotsford">Abbotsford</option>
-                  <option value="Chilliwack">Chilliwack</option>
-                </Form.Control>
-              </InputGroup>
-            </Col>
-            <Col>
-              <p className="mb-1">Min. Price</p>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>
-                    <AttachMoneyIcon fontSize="small" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  type="number"
-                  placeholder="Min. Price"
-                  onChange={(e) => setMinPrice(e.target.value)}
-                  className="withIcon"
-                />
-              </InputGroup>
-            </Col>
-            <Col>
-              <p className="mb-1">Max. Price</p>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text>
-                    <AttachMoneyIcon fontSize="small" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  type="number"
-                  placeholder="Max. Price"
-                  onChange={(e) => setMaxPrice(e.target.value)}
-                  className="withIcon"
-                  isInvalid={!!errors.price}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.price}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Col>
-          </Row>
-          <Row className="justify-content-center">
-            <Button
-              variant="secondary"
-              onClick={() => setModalShow(true)}
-              style={{ marginLeft: "-36px" }}
-            >
-              More Filters
-            </Button>
-            <FilterModal
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-              onSave={handleSave}
-            />
-            <Button
-              variant="primary"
-              onClick={filterListings}
-              style={{ marginLeft: "15px" }}
-            >
-              Search
-            </Button>
-          </Row>
-        </Container>
+      <div className="page__header">
+        <h1 className="header-title display-3">LISTINGS</h1>
+        <div className="header__image">
+          <img
+            src="/images/remax.png"
+            alt=""
+            className="page-header-background"
+          />
+        </div>
       </div>
 
-      <div className="cards-section">
-        {/* <p style={{ margin: "10px 0 0 10px", color: "gray", fontSize: "14px" }}>
+      <div className="listings__wrapper  scene_element scene_element--fadein">
+        <div className="filter">
+          <Container>
+            <h2 className="filter-title mb-3">Search Listings</h2>
+            <Row className="mb-3">
+              <Col md={3}>
+                <p className="mb-1">Search by MLS&#174; Number</p>
+                <Form.Control
+                  type="text"
+                  placeholder="MLS&#174; Number"
+                  value={mlsNumber}
+                  onInput={(e) => setMlsNumber(e.target.value)}
+                  isInvalid={!!errors.mls}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.mls}
+                </Form.Control.Feedback>
+              </Col>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  padding: "0 10px",
+                }}
+              >
+                <div
+                  className="verticalRule"
+                  style={{
+                    width: "1px",
+                    height: "50%",
+                    backgroundColor: "lightgray",
+                  }}
+                ></div>
+                <p style={{ padding: "40% 5%", marginBottom: "0" }}>OR</p>
+                <div
+                  className="verticalRule"
+                  style={{
+                    width: "1px",
+                    height: "50%",
+                    backgroundColor: "lightgray",
+                  }}
+                ></div>
+              </div>
+
+              <Col md={2}>
+                <p className="mb-1">Property Type</p>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                      <HomeWorkIcon fontSize="small" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    as="select"
+                    onChange={(e) => setProperty(e.target.value)}
+                    className="withIcon"
+                  >
+                    <option value="0">All</option>
+                    <option value="1">House</option>
+                    <option value="3">Condo/Strata</option>
+                    <option value="4">Agriculture</option>
+                    <option value="6">Vacant Land</option>
+                    <option value="8">Multi Family</option>
+                  </Form.Control>
+                </InputGroup>
+              </Col>
+              <Col md={2}>
+                <p className="mb-1">Location</p>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                      <LocationOnIcon fontSize="small" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    as="select"
+                    onChange={(e) => getCoordinates(e.target.value)}
+                    className="withIcon"
+                  >
+                    <option value="All">All</option>
+                    <option value="Vancouver">Vancouver</option>
+                    <option value="Richmond">Richmond</option>
+                    <option value="Surrey">Surrey</option>
+                    <option value="White Rock">White Rock</option>
+                    <option value="Langley">Langley</option>
+                    <option value="Burnaby">Burnaby</option>
+                    <option value="Abbotsford">Abbotsford</option>
+                    <option value="Chilliwack">Chilliwack</option>
+                  </Form.Control>
+                </InputGroup>
+              </Col>
+              <Col>
+                <p className="mb-1">Min. Price</p>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                      <AttachMoneyIcon fontSize="small" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    type="number"
+                    placeholder="Min. Price"
+                    onChange={(e) => setMinPrice(e.target.value)}
+                    className="withIcon"
+                  />
+                </InputGroup>
+              </Col>
+              <Col>
+                <p className="mb-1">Max. Price</p>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                      <AttachMoneyIcon fontSize="small" />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    type="number"
+                    placeholder="Max. Price"
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                    className="withIcon"
+                    isInvalid={!!errors.price}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.price}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Col>
+            </Row>
+            <Row className="justify-content-center mt-4">
+              <Button
+                variant="secondary"
+                onClick={() => setModalShow(true)}
+                style={{ marginLeft: "-36px" }}
+                className="btn-filter"
+              >
+                More Filters
+              </Button>
+              <FilterModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                onSave={handleSave}
+              />
+              <Button
+                variant="primary"
+                onClick={filterListings}
+                className="btn-search"
+              >
+                Search
+              </Button>
+            </Row>
+          </Container>
+        </div>
+
+        <div className="cards-section">
+          {/* <p style={{ margin: "10px 0 0 10px", color: "gray", fontSize: "14px" }}>
           Showing {listings.length} results
         </p> */}
 
-        {listings.length === 0 ? (
-          <div
-            style={{
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gridColumn: "1/4",
-            }}
-          >
-            <p
+          {listings.length === 0 ? (
+            <div
               style={{
-                color: "gray",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                gridColumn: "1/4",
               }}
             >
-              {searchMsg}
-            </p>
-          </div>
-        ) : (
-          <>
-            <LoadingIndicator />
-            {/* EVERYTIME YOU CHANGE PROPERTY, IT LOADS NEW SQFT. NEED TO CHANGE TO SEARCH */}
-            {listings?.map((listing) => (
-              <ListingCardBasic
-                address={listing?.Property?.Address?.AddressText}
-                price={listing?.Property?.Price}
-                image={listing?.Property?.Photo?.[0]?.HighResPath}
-                sqft={
-                  isLand
-                    ? listing?.Land?.SizeTotal
-                    : listing?.Building?.SizeInterior
-                }
-                baths={listing?.Building?.BathroomTotal}
-                beds={listing?.Building?.Bedrooms}
-              />
-            ))}
-          </>
-        )}
+              <p
+                style={{
+                  color: "gray",
+                  marginTop: "5%",
+                }}
+              >
+                {searchMsg}
+              </p>
+            </div>
+          ) : (
+            <>
+              <LoadingIndicator />
+              {listings?.map((listing) => (
+                <ListingCardBasic
+                  address={listing?.Property?.Address?.AddressText}
+                  price={listing?.Property?.Price}
+                  image={listing?.Property?.Photo?.[0]?.HighResPath}
+                  sqft={
+                    isLand
+                      ? listing?.Land?.SizeTotal
+                      : listing?.Building?.SizeInterior
+                  }
+                  baths={listing?.Building?.BathroomTotal}
+                  beds={listing?.Building?.Bedrooms}
+                />
+              ))}
+            </>
+          )}
+        </div>
       </div>
-
       {/* <Map /> */}
     </div>
   );
