@@ -21,28 +21,45 @@ function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
 
   return (
     <div className="card-basic">
-      <div className="wrapper">
-        <div className="address-wrapper">
-          <span className="address">{title}</span>
-        </div>
+      {/* <div className="wrapper"> */}
+      <img
+        src={
+          image
+            ? image
+            : "https://cdn.realtor.ca/listings/TS637533235340900000/reb6/highres/9/R2560309_1.jpg"
+        }
+        alt={title}
+        className="propertyImage"
+      />
+      {/* <div className="address-wrapper"> */}
+      <span className="address">{title}</span>
+      {/* </div> */}
 
-        <img
-          src={
-            image
-              ? image
-              : "https://cdn.realtor.ca/listings/TS637533235340900000/reb6/highres/9/R2560309_1.jpg"
-          }
-          alt={title}
-          className="propertyImage"
-        />
-        <div className="bottom-wrapper">
-          <span className="price">{price}</span>
-          <span className="location">
-            <LocationOnIcon fontSize="small" className="icon" />
-            {city}, BC
-          </span>
+      <div className="info-wrapper">
+        <div className="wrapper__bed-bath">
+          <div className="bed-bath__info">
+            <span className="beds">{beds}</span>
+            <HotelIcon className="card-icon" />
+          </div>
+          Bedrooms
+        </div>
+        <div className="wrapper__bed-bath">
+          <div className="bed-bath__info">
+            <span className="baths">{baths}</span>
+            <BathtubIcon className="card-icon" />
+          </div>
+          Bathrooms
         </div>
       </div>
+
+      <div className="bottom-wrapper">
+        <span className="price">{price}</span>
+        <span className="location">
+          <LocationOnIcon fontSize="small" className="icon" />
+          {city}, BC
+        </span>
+      </div>
+      {/* </div> */}
 
       {/* <div className="card__details">
         <span className="details__title">{title}</span>
