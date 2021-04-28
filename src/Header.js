@@ -37,7 +37,8 @@ function Header() {
       }
     >
       <div className="header__logo">
-        <h3 className="logo">Harman Sidhu</h3>
+        {/* <h3 className="logo">Harman Sidhu</h3> */}
+        <img src="/images/HarmanSidhuLogo4Gold.png" alt="" className="logo" />
       </div>
       <div className="header__nav">
         <NavLink to="/" className="link">
@@ -66,28 +67,32 @@ function Header() {
             Listings
           </p>
         </NavLink>
-        <p
-          className={
-            location.pathname !== "/"
-              ? "header__option stick-text"
-              : sticky
-              ? "header__option stick-text"
-              : "header__option"
-          }
-        >
-          About
-        </p>
-        <p
-          className={
-            location.pathname !== "/"
-              ? "header__option stick-text"
-              : sticky
-              ? "header__option stick-text"
-              : "header__option"
-          }
-        >
-          Contact
-        </p>
+        <NavLink to="/about" className="link" activeClassName="selected">
+          <p
+            className={
+              location.pathname !== "/"
+                ? "header__option stick-text"
+                : sticky
+                ? "header__option stick-text"
+                : "header__option"
+            }
+          >
+            About
+          </p>
+        </NavLink>
+        <NavLink to="/contact" className="link" activeClassName="selected">
+          <p
+            className={
+              location.pathname !== "/"
+                ? "header__option stick-text"
+                : sticky
+                ? "header__option stick-text"
+                : "header__option"
+            }
+          >
+            Contact
+          </p>
+        </NavLink>
       </div>
     </div>
   );
