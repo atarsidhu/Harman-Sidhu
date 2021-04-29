@@ -1,26 +1,58 @@
 .about {
-  padding: 50px 150px;
+  /* padding: 50px 150px; */
   background-color: whitesmoke;
   min-height: calc(100vh - 80px);
 }
 
-.about h1 {
-  color: rgb(40, 40, 40);
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
+
+.scene_element {
+  animation-duration: 500ms;
+  transition-timing-function: ease-in;
+  animation-fill-mode: both;
+}
+
+.scene_element--fadein {
+  animation-name: fadeIn;
+}
+
+.about .page-header-background {
+  object-position: 0px 40%;
+}
+
+.about__wrapper {
+  /* padding: 0px 150px 100px 150px; */
+  padding: 50px 10%;
+  display: flex;
+}
+
+/* .about h1 {
+  color: rgb(40, 40, 40);
+} */
 
 hr {
-  border-top: 1px solid #007bff !important;
+  /* border-top: 1px solid #007bff !important; */
+  border-top: 1px solid #939343 !important;
   margin-bottom: 30px;
   width: 70%;
-}
-
-.about__content {
-  display: flex;
 }
 
 .content__info {
   padding-right: 50px;
   flex: 1.5;
+}
+
+.content__info a {
+  background-color: #939343;
+  border-color: #939343;
 }
 
 .info-bottom {

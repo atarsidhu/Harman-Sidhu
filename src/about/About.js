@@ -4,7 +4,17 @@ import "./About.css";
 function About() {
   return (
     <div className="about">
-      <div className="about__content">
+      <div className="page__header">
+        <h1 className="header-title display-3">ABOUT</h1>
+        <div className="header__image">
+          <img
+            src="/images/remax.png"
+            alt=""
+            className="page-header-background"
+          />
+        </div>
+      </div>
+      <div className="about__wrapper  scene_element scene_element--fadein">
         <div className="content__info">
           <h1 className="display-4">Harman S. Sidhu</h1>
           <hr />
