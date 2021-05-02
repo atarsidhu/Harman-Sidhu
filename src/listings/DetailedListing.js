@@ -2,6 +2,7 @@ import React from "react";
 import "./DetailedListing.css";
 import { useLocation } from "react-router-dom";
 import Map from "./Map";
+import ContactForm from "../ContactForm";
 
 function DetailedListing() {
   let location = useLocation();
@@ -27,11 +28,10 @@ function DetailedListing() {
     [city] = cityWithPostalCode.split(",");
   }
 
-  var ws_wsid = "gca43d0893b27415f9575f4792abe7227";
-  var ws_address = "1060 Lombard Street, San Francisco, CA";
-  var ws_format = "wide";
-  var ws_width = "690";
-  var ws_height = "525";
+  const position = {
+    lat: parseFloat(listing?.Property?.Address?.Latitude),
+    lng: parseFloat(listing?.Property?.Address?.Longitude),
+  };
 
   return (
     <div className="detailed">
@@ -57,7 +57,92 @@ function DetailedListing() {
         />
 
         <div className="overview__info">
-          <table>
+          <h2 style={{ paddingLeft: "10px", fontWeight: "300" }}>Walk Score</h2>
+          <hr style={{ borderTop: "1px solid #939343", margin: "0" }} />
+          <div
+            id="ws-walkscore-tile"
+            style={{
+              position: "relative",
+              textAlign: "left",
+              textDecoration: "none",
+              padding: "0px",
+              fontStretch: "normal",
+              fontStyle: "normal",
+              fontVariant: "normal",
+              letterSpacing: "normal",
+              wordSpacing: "normal",
+              textTransform: "none",
+              verticalAlign: "baseline",
+              textIndent: "0px",
+              textShadow: "none",
+              whiteSpace: "normal",
+              backgroundImage: "none",
+              backgroundColor: "transparent",
+              height: "620px",
+              width: "100%",
+              // gridColumn: "1/4",
+            }}
+          >
+            <iframe
+              marginHeight={0}
+              marginWidth={0}
+              height={"620px"}
+              frameBorder={0}
+              scrolling={"no"}
+              title={"Walk Score"}
+              style={{
+                margin: "0px",
+                outline: "none",
+                textAlign: "left",
+                textDecoration: "none",
+                padding: "0px",
+                fontStretch: "normal",
+                fontStyle: "normal",
+                fontVariant: "normal",
+                letterSpacing: "normal",
+                wordSpacing: "normal",
+                textTransform: "none",
+                verticalAlign: "baseline",
+                textIndent: "0px",
+                textShadow: "none",
+                whiteSpace: "normal",
+                backgroundImage: "none",
+                backgroundColor: "transparent",
+                border: "0px",
+              }}
+              width="100%"
+              src={`https://www.walkscore.com/serve-walkscore-tile.php?wsid=3c29105a68a939531c22e84d304b67d3&lat=${listing?.Property?.Address?.Latitude}&lng=${listing?.Property?.Address?.Longitude}&o=h&c=f&h=400&fh=0&w=320`}
+            ></iframe>
+          </div>
+        </div>
+      </div>
+      {/* <hr
+        style={{
+          width: "100%",
+          margin: "50px 0",
+          borderTop: "1px solid lightgray",
+        }}
+      /> */}
+      <div className="detailed__additional">
+        <h2
+          style={{
+            gridColumn: "1/4",
+            fontWeight: "300",
+            paddingTop: "50px",
+            marginBottom: "0",
+          }}
+        >
+          Details & Description
+        </h2>
+        <hr
+          style={{
+            gridColumn: "1/4",
+            paddingBottom: "20px",
+            borderTop: "1px solid #939343",
+          }}
+        />
+        <table>
+          <tbody>
             <tr>
               <td className="tableTitle">MLS&#174; Number:</td>
               <td className="tableValue">{listing?.MlsNumber}</td>
@@ -131,74 +216,47 @@ function DetailedListing() {
                 </td>
               </tr>
             ) : null}
-          </table>
-        </div>
-      </div>
-      <hr
-        style={{
-          width: "100%",
-          margin: "50px 0",
-          borderTop: "1px solid lightgray",
-        }}
-      />
-      <div className="detailed__additional">
+          </tbody>
+        </table>
         <p className="lead">{listing?.PublicRemarks}</p>
-        <Map />
-
-        <div
-          id="ws-walkscore-tile"
+        <h2
           style={{
-            position: "relative",
-            textAlign: "left",
-            textDecoration: "none",
-            padding: "0px",
-            fontStretch: "normal",
-            fontStyle: "normal",
-            fontVariant: "normal",
-            letterSpacing: "normal",
-            wordSpacing: "normal",
-            textTransform: "none",
-            verticalAlign: "baseline",
-            textIndent: "0px",
-            textShadow: "none",
-            whiteSpace: "normal",
-            backgroundImage: "none",
-            backgroundColor: "transparent",
-            height: "620px",
-            width: "100%",
-            // gridColumn: "1/4",
+            gridColumn: "1/4",
+            fontWeight: "300",
+            paddingTop: "50px",
+            marginBottom: "0",
           }}
         >
-          <iframe
-            marginheight={0}
-            marginwidth={0}
-            height={"620px"}
-            frameborder={0}
-            scrolling={"no"}
-            title={"Walk Score"}
-            style={{
-              margin: "0px",
-              outline: "none",
-              textAlign: "left",
-              textDecoration: "none",
-              padding: "0px",
-              fontStretch: "normal",
-              fontStyle: "normal",
-              fontVariant: "normal",
-              letterSpacing: "normal",
-              wordSpacing: "normal",
-              textTransform: "none",
-              verticalAlign: "baseline",
-              textIndent: "0px",
-              textShadow: "none",
-              whiteSpace: "normal",
-              backgroundImage: "none",
-              backgroundColor: "transparent",
-              border: "0px",
-            }}
-            width="100%"
-            src={`https://www.walkscore.com/serve-walkscore-tile.php?wsid=3c29105a68a939531c22e84d304b67d3&lat=${listing?.Property?.Address?.Latitude}&lng=${listing?.Property?.Address?.Longitude}&o=h&c=f&h=400&fh=0&w=320`}
-          ></iframe>
+          Location & Contact
+        </h2>
+        <hr
+          style={{
+            gridColumn: "1/4",
+            paddingBottom: "20px",
+            borderTop: "1px solid #939343",
+          }}
+        />
+        <Map position={position} address={title} />
+        <div className="wrapper__info">
+          <h4>Book a showing or request more info!</h4>
+          <div className="info__general">
+            {/* <div className="general__text">
+              <p className="info-title">Phone Number</p>
+              <p className="lead">604-600-5854</p>
+              <p className="info-title">Email Address</p>
+              <p className="lead">harman@harmansidhu.ca</p>
+            </div>
+            <p className="info-title">Office Location</p>
+            <p className="lead">
+              305 -15288 54A Avenue Surrey, British Columbia V3S6T4
+            </p>
+            <img
+              src="../images/harmansidhu-picture.jpg"
+              alt=""
+              className="listing-image"
+            /> */}
+            <ContactForm fromListing={true} address={title} />
+          </div>
         </div>
       </div>
     </div>

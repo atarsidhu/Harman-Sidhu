@@ -52,14 +52,38 @@ tr:nth-child(odd) {
 .detailed__additional {
   /* padding-top: 20px; */
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
 }
 
 .detailed__additional .lead {
-  padding-right: 30px;
+  /* padding-left: 30px; */
 }
 
 .detailed__additional .google {
-  /* width: 100%; */
-  /* height: 100%; */
+  /* padding-top: 50px; */
+  width: 100%;
+  height: 100%;
+  /* grid-column: 1/4; */
+}
+
+.detailed__additional .google > div {
+  border-radius: 10px;
+  box-shadow: 0 0 5px lightgray;
+}
+
+.detailed .wrapper__info {
+  background-color: white;
+}
+
+.detailed .info__general {
+  /* display: flex; */
+  /* gap: 50px; */
+}
+
+.listing-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 100px;
 }
