@@ -5,28 +5,66 @@ import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import HotelIcon from "@material-ui/icons/Hotel";
 import BathtubIcon from "@material-ui/icons/Bathtub";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import SquareFootIcon from "@material-ui/icons/SquareFoot";
+import { Link } from "react-router-dom";
+import DetailedListing from "./DetailedListing";
 
-function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
+function ListingCardBasic({ sqft, listing }) {
   let title,
     cityWithPostalCode,
     city,
     sqftSize = "";
 
-  if (address !== "Address not available") {
-    [title, cityWithPostalCode] = address?.split("|");
+  if (listing?.Property?.Address?.AddressText !== "Address not available") {
+    [title, cityWithPostalCode] = listing?.Property?.Address?.AddressText.split(
+      "|"
+    );
     [city] = cityWithPostalCode.split(",");
   }
 
-  // [sqftSize] = sqft?.split(" ");
+  if (typeof sqft === "string") {
+    [sqftSize] = sqft?.split(" ");
+  }
+
+  // console.log(listing);
+
+  /**
+   * Open new page and put listing into local storage to retrieve in DetailedListing component
+   */
+  function openNewPage() {
+    let listingData = JSON.parse(localStorage.getItem(listing?.Id));
+
+    if (listingData === null) {
+      listingData = [];
+    }
+
+    // If property listing isn't in local storare, then store it
+    if (localStorage.getItem(listing?.Id) === null) {
+      listingData.push(listing);
+      localStorage.setItem(listing?.Id, JSON.stringify(listingData));
+    }
+
+    window.open(`/listing/${listing?.Id}`);
+    // localStorage.clear();
+  }
 
   return (
-    <div className="card-basic">
+    // <Link
+    //   to={{
+    //     pathname: `/listing/${listing?.Id}`,
+    //     state: { address: listing?.Property?.Address?.AddressText },
+    //   }}
+    //   target="_blank"
+    //   rel="noopener noreferrer"
+    //   style={{ textDecoration: "none", color: "black" }}
+    // >
+    <div className="card-basic" onClick={openNewPage}>
       {/* <div className="wrapper"> */}
       <img
         src={
-          image
-            ? image
-            : "https://cdn.realtor.ca/listings/TS637533235340900000/reb6/highres/9/R2560309_1.jpg"
+          listing?.Property?.Photo?.[0]?.HighResPath
+            ? listing?.Property?.Photo?.[0]?.HighResPath
+            : "./images/unavailable.jpg"
         }
         alt={title}
         className="propertyImage"
@@ -35,29 +73,53 @@ function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
       <span className="address">{title}</span>
       {/* </div> */}
 
-      <div className="info-wrapper">
-        <div className="wrapper__bed-bath">
-          <div className="bed-bath__info">
-            <span className="beds">{beds}</span>
-            <HotelIcon className="card-icon" />
+      {listing?.Building?.Bedrooms > 0 ? (
+        <div className="info-wrapper">
+          <div className="wrapper__details">
+            <div className="details__info">
+              <span>{listing?.Building?.Bedrooms}</span>
+              <HotelIcon className="card-icon" />
+            </div>
+            Bedrooms
           </div>
-          Bedrooms
-        </div>
-        <div className="wrapper__bed-bath">
-          <div className="bed-bath__info">
-            <span className="baths">{baths}</span>
-            <BathtubIcon className="card-icon" />
+          <div className="wrapper__details">
+            <div className="details__info">
+              <span>{listing?.Building?.BathroomTotal}</span>
+              <BathtubIcon className="card-icon" />
+            </div>
+            Bathrooms
           </div>
-          Bathrooms
+          <div className="wrapper__details">
+            <div className="details__info-sqft">
+              <span>{sqftSize}</span>
+              <SquareFootIcon className="card-icon" />
+            </div>
+            Sqft
+          </div>
         </div>
-      </div>
+      ) : sqftSize > 0 ? (
+        <div className="info-wrapper" style={{ justifyContent: "normal" }}>
+          <div className="wrapper__details no-beds">
+            <div className="details__info-sqft">
+              <span>{sqftSize}</span>
+              <SquareFootIcon className="card-icon" />
+            </div>
+            Sqft
+          </div>
+          <span className="desc-content">{listing?.PublicRemarks}</span>
+        </div>
+      ) : (
+        <div className="listing__desc">
+          <span className="desc-content">{listing?.PublicRemarks}</span>
+        </div>
+      )}
 
       <div className="bottom-wrapper">
-        <span className="price">{price}</span>
         <span className="location">
           <LocationOnIcon fontSize="small" className="icon" />
           {city}, BC
         </span>
+        <span className="price">{listing?.Property?.Price}</span>
       </div>
       {/* </div> */}
 
@@ -102,6 +164,7 @@ function ListingCardBasic({ address, price, image, sqft, beds, baths }) {
         />
       </div> */}
     </div>
+    // </Link>
   );
 }
 
