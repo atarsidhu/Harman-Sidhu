@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Listings.css";
 import axios from "axios";
 import ListingCardBasic from "./ListingCardBasic";
+import Pagination from "./Pagination";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Container,
@@ -13,19 +14,14 @@ import {
   Modal,
   Spinner,
 } from "react-bootstrap";
-import Map from "./Map";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import HotelIcon from "@material-ui/icons/Hotel";
 import BathtubIcon from "@material-ui/icons/Bathtub";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import { Marker } from "@react-google-maps/api";
 import { usePromiseTracker, trackPromise } from "react-promise-tracker";
 
 function Listings() {
-  // Might not need context API: Pull the data here, then we can pass it as
-  //  prop to new react component(DetailedListing) which would be when a user clicks a listing
-
   const REALTOR_API_KEY = process.env.REACT_APP_REALTOR_API_KEY;
 
   const [property, setProperty] = useState("0");
@@ -45,6 +41,13 @@ function Listings() {
   const [modalShow, setModalShow] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLand, setIsLand] = useState(false);
+  const [paging, setPaging] = useState({
+    totalPages: 0,
+    maxRecords: 0,
+    recordsPerPage: 0,
+  });
+  // const [currentPage, setCurrentPage] = useState(1);
+  const stateRef = useRef(1);
 
   /**
    * Loading indicator for when the API is being called
@@ -76,7 +79,7 @@ function Listings() {
   function filterListings() {
     window.scrollTo(0, 170);
     const newErrors = findErrors();
-    console.log(property);
+    // console.log(property);
 
     if (property === "4" || property === "6") {
       setIsLand(true);
@@ -101,7 +104,7 @@ function Listings() {
           url:
             "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
           params: {
-            CurrentPage: "1",
+            CurrentPage: `${stateRef.current}`,
             LatitudeMin: coordinates.latitudeMin,
             LongitudeMax: coordinates.longitudeMax,
             RecordsPerPage: "50",
@@ -179,6 +182,16 @@ function Listings() {
           .then(function (response) {
             setListings(response.data.Results);
             console.log(listings);
+
+            setPaging({
+              ...paging,
+              totalPages: response.data.Paging.TotalPages,
+              maxRecords: response.data.Paging.RecordsShowing,
+              recordsPerPage:
+                response.data.Paging.RecordsShowing < 50
+                  ? response.data.Paging.RecordsShowing
+                  : response.data.Paging.RecordsPerPage,
+            });
           })
           .catch(function (error) {
             console.error(error);
@@ -187,6 +200,21 @@ function Listings() {
     }
   }
 
+  /**
+   * Set the current page number
+   *
+   * @param {number} pageNumber The current page number
+   */
+  const paginate = (pageNumber) => {
+    stateRef.current = pageNumber;
+    filterListings();
+  };
+
+  /**
+   * Determines if the filter fields contains any errors
+   *
+   * @returns New errors if any are present.
+   */
   const findErrors = () => {
     const newErrors = {};
 
@@ -207,6 +235,7 @@ function Listings() {
 
   /**
    * Determines the minimum and maximum GPS coordinates of the selected location.
+   * Required for API.
    *
    * @param {string} location Name of area.
    */
@@ -286,33 +315,6 @@ function Listings() {
         break;
     }
   }
-
-  /**
-   * Determines the designated integer for the selected property
-   * @param {String} type - The type of property selected by the user
-   */
-  // function propertyType(type) {
-  //   switch (type) {
-  //     case "All":
-  //       setProperty(0);
-  //       break;
-  //     case "House":
-  //       setProperty(1);
-  //       break;
-  //     case "Condo/Strata":
-  //       setProperty(3);
-  //       break;
-  //     case "Agriculture":
-  //       setProperty(4);
-  //       break;
-  //     case "Vacant Land":
-  //       setProperty(6);
-  //       break;
-  //     case "Multi Family":
-  //       setProperty(8);
-  //       break;
-  //   }
-  // }
 
   /**
    * Set the data from the modal to the parent variables
@@ -578,10 +580,6 @@ function Listings() {
         </div>
 
         <div className="cards-section">
-          {/* <p style={{ margin: "10px 0 0 10px", color: "gray", fontSize: "14px" }}>
-          Showing {listings.length} results
-        </p> */}
-
           {listings.length === 0 ? (
             <div
               style={{
@@ -603,20 +601,31 @@ function Listings() {
           ) : (
             <>
               <LoadingIndicator />
+              {/* When pages change, update the values (showing results 51-100 out of 500)*/}
+              <p
+                style={{
+                  margin: "0 0 0 5px",
+                  color: "gray",
+                  fontSize: "20px",
+                  gridColumn: "1/4",
+                }}
+              >
+                Showing {paging.recordsPerPage} of {paging.maxRecords} listings
+              </p>
               {listings?.map((listing) => (
                 <ListingCardBasic
-                  address={listing?.Property?.Address?.AddressText}
-                  price={listing?.Property?.Price}
-                  image={listing?.Property?.Photo?.[0]?.HighResPath}
                   sqft={
                     isLand
                       ? listing?.Land?.SizeTotal
                       : listing?.Building?.SizeInterior
                   }
-                  baths={listing?.Building?.BathroomTotal}
-                  beds={listing?.Building?.Bedrooms}
+                  listing={listing}
                 />
               ))}
+              <Pagination
+                totalPages={paging.totalPages}
+                paginate={paginate}
+              ></Pagination>
             </>
           )}
         </div>
