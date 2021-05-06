@@ -7,6 +7,18 @@ function Pagination({ totalPages, paginate }) {
     pageNumbers.push(i);
   }
 
+  function handleClick(e, num) {
+    let pages = document.getElementsByClassName("page-link");
+
+    for (let i = 0; i < pages.length; i++) {
+      pages[i].classList.remove("active");
+    }
+
+    e.target.classList.add("active");
+
+    paginate(num);
+  }
+
   return (
     <nav
       style={{
@@ -19,7 +31,11 @@ function Pagination({ totalPages, paginate }) {
       <ul className="pagination">
         {pageNumbers.map((num) => (
           <li key={num} className="page-item">
-            <a onClick={() => paginate(num)} href="#!" className="page-link">
+            <a
+              onClick={(e) => handleClick(e, num)}
+              href="#!"
+              className="page-link"
+            >
               {num}
             </a>
           </li>
