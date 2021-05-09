@@ -131,7 +131,11 @@ function ContactForm({ fromListing, address }) {
                 onInput={(e) => setMessage(e.target.value)}
                 value={
                   fromListing
-                    ? `I would like to know more about ${address}, thank you.`
+                    ? `I would like to know more about ${address
+                        .toLowerCase()
+                        .split(" ")
+                        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                        .join(" ")}, thank you.`
                     : ""
                 }
               />
