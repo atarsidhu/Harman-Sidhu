@@ -123,8 +123,12 @@ input[type="number"] {
   color: #939343 !important;
 }
 
-.page-item.active .page-link {
+.page-link.active {
   background-color: #939343 !important;
   border-color: #939343 !important;
   color: white !important;
+}
+
+.page-link:focus {
+  box-shadow: none !important;
 }

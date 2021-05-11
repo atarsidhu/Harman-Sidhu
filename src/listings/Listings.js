@@ -27,14 +27,17 @@ function Listings() {
   const [property, setProperty] = useState("0");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
-  const [bedrooms, setBedrooms] = useState(0);
-  const [bathrooms, setBathrooms] = useState(0);
+  // const [bedrooms, setBedrooms] = useState(0);
+  // const [bathrooms, setBathrooms] = useState(0);
+  const bedrooms = useRef(0);
+  const bathrooms = useRef(0);
   const [coordinates, setCoordinates] = useState({
     latitudeMin: "49.007816",
     longitudeMin: "-123.217246",
     latitudeMax: "49.2806",
     longitudeMax: "-121.747719",
   });
+  const [area, setArea] = useState("All");
   const [listings, setListings] = useState([]);
   const [mlsNumber, setMlsNumber] = useState("");
   const [searchMsg, setSearchMsg] = useState("Use the search bar to begin");
@@ -46,8 +49,11 @@ function Listings() {
     maxRecords: 0,
     recordsPerPage: 0,
   });
-  // const [currentPage, setCurrentPage] = useState(1);
-  const stateRef = useRef(1);
+  const sort = useRef("A");
+  const currentPage = useRef(1);
+  let fromStart = true;
+  let searchResults = {};
+  let searchFieldValues = `${property}${area}${minPrice}${maxPrice}${bathrooms}${bedrooms}`;
 
   /**
    * Loading indicator for when the API is being called
@@ -76,7 +82,7 @@ function Listings() {
   /**
    * Filter the results based on the selections made by the user.
    */
-  function filterListings() {
+  function filterListings(fromStart) {
     window.scrollTo(0, 170);
     const newErrors = findErrors();
     // console.log(property);
@@ -85,6 +91,10 @@ function Listings() {
       setIsLand(true);
     } else {
       setIsLand(false);
+    }
+
+    if (fromStart) {
+      currentPage.current = 1;
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -101,17 +111,16 @@ function Listings() {
         //  but works with vacant land
         options = {
           method: "GET",
-          url:
-            "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
+          url: "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
           params: {
-            CurrentPage: `${stateRef.current}`,
+            CurrentPage: `${currentPage.current}`,
             LatitudeMin: coordinates.latitudeMin,
             LongitudeMax: coordinates.longitudeMax,
             RecordsPerPage: "50",
             LongitudeMin: coordinates.longitudeMin,
             LatitudeMax: coordinates.latitudeMax,
-            BedRange: `${bedrooms}-0`,
-            BathRange: `${bathrooms}-0`,
+            BedRange: `${bedrooms.current}-0`,
+            BathRange: `${bathrooms.current}-0`,
             NumberOfDays: "0",
             CultureId: "1",
             PriceMin: `${minPrice}`,
@@ -120,7 +129,7 @@ function Listings() {
             PropertySearchTypeId: "0",
             SortBy: "1",
             BuildingTypeId: "1",
-            SortOrder: "A",
+            SortOrder: sort.current,
             RentMin: "0",
           },
           headers: {
@@ -165,8 +174,7 @@ function Listings() {
 
         newOptions = {
           method: "GET",
-          url:
-            "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-by-mls",
+          url: "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-by-mls",
           params: { ReferenceNumber: mlsNumber, CultureId: "1" },
           headers: {
             "x-rapidapi-key":
@@ -182,6 +190,7 @@ function Listings() {
           .then(function (response) {
             setListings(response.data.Results);
             console.log(listings);
+            console.log(response.data.Results);
 
             setPaging({
               ...paging,
@@ -192,9 +201,21 @@ function Listings() {
                   ? response.data.Paging.RecordsShowing
                   : response.data.Paging.RecordsPerPage,
             });
+
+            // console.log(searchFieldValues);
+
+            // Ask about API price before spending time implementing this.
+            // searchResults:
+            //    searchFieldValues: {pageNumber: listings},
+            // searchResults.searchFieldValues = {
+            //   pageNumber: listings,
+            // };
+
+            // console.log(searchResults);
           })
           .catch(function (error) {
             console.error(error);
+            setSearchMsg("The service is temporarily unavailable.");
           })
       );
     }
@@ -206,12 +227,14 @@ function Listings() {
    * @param {number} pageNumber The current page number
    */
   const paginate = (pageNumber) => {
-    stateRef.current = pageNumber;
-    filterListings();
+    currentPage.current = pageNumber;
+    fromStart = false;
+    filterListings(fromStart);
+    fromStart = true;
   };
 
   /**
-   * Determines if the filter fields contains any errors
+   * Determines if the filter fields contain any errors
    *
    * @returns New errors if any are present.
    */
@@ -314,6 +337,17 @@ function Listings() {
         });
         break;
     }
+    setArea(location);
+  }
+
+  function handleSort(e) {
+    if (e.target.value === "price high") {
+      sort.current = "D";
+      filterListings(true);
+    } else if (e.target.value === "price low") {
+      sort.current = "A";
+      filterListings(true);
+    }
   }
 
   /**
@@ -321,8 +355,10 @@ function Listings() {
    * @param {Object} fromModal - Data returned from modal
    */
   function handleSave(fromModal) {
-    setBathrooms(fromModal.baths);
-    setBedrooms(fromModal.beds);
+    // setBedrooms(fromModal.beds);
+    // setBathrooms(fromModal.baths);
+    bedrooms.current = fromModal.beds;
+    bathrooms.current = fromModal.baths;
   }
 
   /**
@@ -331,16 +367,31 @@ function Listings() {
    * @returns More filters modal
    */
   function FilterModal(props) {
-    const [fromModal, setFromModal] = useState({
+    let fromModal = {
       beds: 0,
       baths: 0,
-    });
+    };
+
+    function handleChange(e, type) {
+      if (type === "beds") {
+        fromModal.beds = e.target.value;
+      } else {
+        fromModal.baths = e.target.value;
+      }
+    }
 
     function save() {
       props.onSave(fromModal);
     }
 
     function clicked() {
+      if (fromModal.beds > 5) {
+        fromModal.beds = 5;
+      }
+      if (fromModal.baths > 5) {
+        fromModal.baths = 5;
+      }
+
       props.onHide();
       save();
     }
@@ -372,9 +423,7 @@ function Listings() {
                   <Form.Control
                     type="number"
                     placeholder="Beds"
-                    onChange={(e) =>
-                      setFromModal({ ...fromModal, beds: e.target.value })
-                    }
+                    onChange={(e) => handleChange(e, "beds")}
                     className="withIcon"
                   />
                 </InputGroup>
@@ -391,12 +440,21 @@ function Listings() {
                     type="number"
                     placeholder="Baths"
                     // onChange={setBath}
-                    onChange={(e) =>
-                      setFromModal({ ...fromModal, baths: e.target.value })
-                    }
+                    onChange={(e) => handleChange(e, "baths")}
                     className="withIcon"
                   />
                 </InputGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>
+                  <i>
+                    The service only accepts a range between 1-5 for beds and
+                    baths. Any value entered over 5 will return a{" "}
+                    <strong>minimum</strong> of 5 of the desired type.
+                  </i>
+                </p>
               </Col>
             </Row>
           </Container>
@@ -570,7 +628,7 @@ function Listings() {
               />
               <Button
                 variant="primary"
-                onClick={filterListings}
+                onClick={() => filterListings(fromStart)}
                 className="btn-search"
               >
                 Search
@@ -602,17 +660,33 @@ function Listings() {
             <>
               <LoadingIndicator />
               {/* When pages change, update the values (showing results 51-100 out of 500)*/}
-              <p
+              <div
                 style={{
-                  margin: "0 0 0 5px",
-                  color: "gray",
-                  fontSize: "20px",
                   gridColumn: "1/4",
+                  display: "flex",
+                  justifyContent: "space-between",
                 }}
               >
-                Showing {paging.recordsPerPage} of {paging.maxRecords} listings
-              </p>
-              {listings?.map((listing) => (
+                <p
+                  style={{
+                    margin: "0 0 0 5px",
+                    color: "gray",
+                    fontSize: "20px",
+                    // gridColumn: "1/4",
+                  }}
+                >
+                  Showing {paging.recordsPerPage} of {paging.maxRecords}{" "}
+                  listings
+                </p>
+                <Col md={2}>
+                  <Form.Control as="select" onChange={(e) => handleSort(e)}>
+                    <option value="0">Sort By</option>
+                    <option value="price low">Price Low To High</option>
+                    <option value="price high">Price High To Low</option>
+                  </Form.Control>
+                </Col>
+              </div>
+              {listings?.map((listing, i) => (
                 <ListingCardBasic
                   sqft={
                     isLand
@@ -620,6 +694,7 @@ function Listings() {
                       : listing?.Building?.SizeInterior
                   }
                   listing={listing}
+                  key={i}
                 />
               ))}
               <Pagination
