@@ -54,6 +54,7 @@ function Listings() {
   let fromStart = true;
   let searchResults = {};
   let searchFieldValues = `${property}${area}${minPrice}${maxPrice}${bathrooms}${bedrooms}`;
+  let cardsSection = document.getElementsByClassName("cards-section");
 
   /**
    * Loading indicator for when the API is being called
@@ -189,7 +190,6 @@ function Listings() {
           .request(newOptions)
           .then(function (response) {
             setListings(response.data.Results);
-            console.log(listings);
             console.log(response.data.Results);
 
             setPaging({
@@ -638,6 +638,7 @@ function Listings() {
         </div>
 
         <div className="cards-section">
+          <LoadingIndicator />
           {listings.length === 0 ? (
             <div
               style={{
@@ -658,7 +659,6 @@ function Listings() {
             </div>
           ) : (
             <>
-              <LoadingIndicator />
               {/* When pages change, update the values (showing results 51-100 out of 500)*/}
               <div
                 style={{
@@ -705,7 +705,6 @@ function Listings() {
           )}
         </div>
       </div>
-      {/* <Map /> */}
     </div>
   );
 }
