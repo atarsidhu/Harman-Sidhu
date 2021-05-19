@@ -17,7 +17,13 @@ function About() {
       <div className="about__wrapper  scene_element scene_element--fadein">
         <div className="content__info">
           <h1 className="display-4">Harman S. Sidhu</h1>
-          <hr />
+          <hr
+            style={{
+              borderTop: "1px solid #939343",
+              marginBottom: "30px",
+              width: "70%",
+            }}
+          />
           <p className="lead">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ad
             similique nostrum minus ex soluta praesentium! Recusandae deserunt
