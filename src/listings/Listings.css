@@ -38,18 +38,6 @@
   align-items: flex-end;
 }
 
-.form-control:focus ~ .input-group-text {
-  /* transition: none !important; */
-  /* box-shadow: 0 0 5px red !important; */
-  /* border-color: #ced4da !important; */
-}
-
-.input-group:hover {
-  /* box-shadow: 0 0 5px red !important; */
-}
-
-/* TRY TO GET THE ENTIRE INPUT TO HAVE BOXSHADOW ON FOCUS */
-
 .withIcon {
   border-left: none !important;
   padding-left: 0 !important;
@@ -114,6 +102,10 @@ input[type="number"] {
 }
 
 .cards-section::-webkit-scrollbar {
+  display: none;
+}
+
+.hidden {
   display: none;
 }
 

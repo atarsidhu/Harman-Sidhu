@@ -20,6 +20,7 @@ import HotelIcon from "@material-ui/icons/Hotel";
 import BathtubIcon from "@material-ui/icons/Bathtub";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { usePromiseTracker, trackPromise } from "react-promise-tracker";
+// import puppeteer from "puppeteer";
 
 function Listings() {
   const REALTOR_API_KEY = process.env.REACT_APP_REALTOR_API_KEY;
@@ -55,6 +56,31 @@ function Listings() {
   let searchResults = {};
   let searchFieldValues = `${property}${area}${minPrice}${maxPrice}${bathrooms}${bedrooms}`;
   let cardsSection = document.getElementsByClassName("cards-section");
+  // const puppeteer = require("puppeteer");
+
+  // (async () => {
+  //   const browser = await puppeteer.launch();
+  //   console.log(browser.wsEndpoint());
+  // })();
+
+  // (async function main() {
+  //   try {
+  //     const browser = await puppeteer.launch({ headless: false });
+  //     const page = await browser.newPage();
+  //     page.setUserAgent(
+  //       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+  //     );
+
+  //     await page.goto(
+  //       "https://www.realtor.ca/agent/2044451/harman-sidhu-305--15288-54a-avenue-surrey-british-columbia-v3s6t4"
+  //     );
+  //     await page.waitForSelector(".cardCon");
+
+  //     console.log("showing");
+  //   } catch (e) {
+  //     console.log("error", e);
+  //   }
+  // })();
 
   /**
    * Loading indicator for when the API is being called
@@ -69,6 +95,7 @@ function Listings() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            marginBottom: "100vh",
             gridColumn: "1/4",
           }}
         >
@@ -106,10 +133,6 @@ function Listings() {
       let newOptions = {};
 
       if (mlsNumber === "") {
-        // When setting the min and max price, we must also apply the
-        //  TransactionTypeId with the value of 2 for sale (3 is for rent)
-        // PropertySearchTypeId doesnt work with residential (shows storage lockers)
-        //  but works with vacant land
         options = {
           method: "GET",
           url: "https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential",
@@ -201,6 +224,10 @@ function Listings() {
                   ? response.data.Paging.RecordsShowing
                   : response.data.Paging.RecordsPerPage,
             });
+
+            if (response.data.Results.length == 0) {
+              setSearchMsg("No results found");
+            }
 
             // console.log(searchFieldValues);
 
@@ -564,14 +591,14 @@ function Listings() {
                     className="withIcon"
                   >
                     <option value="All">All</option>
-                    <option value="Vancouver">Vancouver</option>
+                    <option value="Abbotsford">Abbotsford</option>
+                    <option value="Burnaby">Burnaby</option>
+                    <option value="Chilliwack">Chilliwack</option>
+                    <option value="Langley">Langley</option>
                     <option value="Richmond">Richmond</option>
                     <option value="Surrey">Surrey</option>
+                    <option value="Vancouver">Vancouver</option>
                     <option value="White Rock">White Rock</option>
-                    <option value="Langley">Langley</option>
-                    <option value="Burnaby">Burnaby</option>
-                    <option value="Abbotsford">Abbotsford</option>
-                    <option value="Chilliwack">Chilliwack</option>
                   </Form.Control>
                 </InputGroup>
               </Col>
@@ -667,17 +694,31 @@ function Listings() {
                   justifyContent: "space-between",
                 }}
               >
-                <p
-                  style={{
-                    margin: "0 0 0 5px",
-                    color: "gray",
-                    fontSize: "20px",
-                    // gridColumn: "1/4",
-                  }}
-                >
-                  Showing {paging.recordsPerPage} of {paging.maxRecords}{" "}
-                  listings
-                </p>
+                {/* Check for over max results condition */}
+                {currentPage.current === 1 ? (
+                  <p
+                    style={{
+                      margin: "0 0 0 5px",
+                      color: "gray",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Showing 1 - {paging.recordsPerPage} of {paging.maxRecords}{" "}
+                    listings
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      margin: "0 0 0 5px",
+                      color: "gray",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Showing {currentPage.current * paging.recordsPerPage - 49} -{" "}
+                    {currentPage.current * paging.recordsPerPage} of{" "}
+                    {paging.maxRecords} listings
+                  </p>
+                )}
                 <Col md={2}>
                   <Form.Control as="select" onChange={(e) => handleSort(e)}>
                     <option value="0">Sort By</option>

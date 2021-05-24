@@ -44,6 +44,7 @@ function DetailedListing() {
           {listing?.Property?.Price}
         </h1>
       </div>
+      <hr style={{ borderTop: "1px solid #939343", margin: "0 0 50px 0" }} />
 
       <div className="detailed__overview">
         <img
@@ -78,15 +79,14 @@ function DetailedListing() {
               whiteSpace: "normal",
               backgroundImage: "none",
               backgroundColor: "transparent",
-              height: "620px",
+              height: "calc(100% - 40px)",
               width: "100%",
-              // gridColumn: "1/4",
             }}
           >
             <iframe
               marginHeight={0}
               marginWidth={0}
-              height={"620px"}
+              height={"100%"}
               frameBorder={0}
               scrolling={"no"}
               title={"Walk Score"}

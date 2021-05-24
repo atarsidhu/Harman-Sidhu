@@ -91,6 +91,7 @@
 
 .listings-section {
   padding: 100px 150px;
+  text-align: center;
 }
 
 .listings-section h1,
@@ -118,10 +119,15 @@
   padding: 100px 150px;
 }
 
-/* .about-section h1 {
-  font-size: 60px;
-  color: rgb(70, 70, 70);
-} */
+.btn {
+  background-color: #939343 !important;
+  border-color: #939343 !important;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 0.2rem #93934383 !important;
+  border: 1px solid #93934383 !important;
+}
 
 /* Contact section */
 
@@ -129,12 +135,6 @@
   text-align: center;
   padding: 100px 150px;
 }
-
-/* .contact-section h1 {
-  font-size: 60px;
-  color: rgb(70, 70, 70);
-  font-weight: 300;
-} */
 
 .contact__info {
   display: flex;
@@ -145,7 +145,7 @@
   width: 200px;
   height: 200px;
   border-radius: 100px;
-  background-color: rgb(199, 234, 255);
+  background-color: #dbdbb7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -154,12 +154,12 @@
 
 .contact-info-title {
   font-weight: 400;
-  color: #007bff;
+  color: #939343;
 }
 
 .contact-icon {
   font-size: 100px !important;
-  color: #007bff !important;
+  color: #939343 !important;
 }
 
 .info__email {

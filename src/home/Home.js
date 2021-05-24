@@ -69,19 +69,26 @@ function Home() {
       </div>
 
       <div className="listings-section">
-        <h1 className="mb-5">Featured Listing</h1>
-        <div className="listings__cards">
-          {/* Wont work unless we pass in props */}
-          {/* <ListingCardBasic />
-          <ListingCardBasic />
-          <ListingCardBasic />
-          <ListingCardBasic /> */}
-        </div>
+        <h1 className="mb-5">Listings</h1>
+        {/* <div className="listings__cards"> */}
+        <p className="text-center lead">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Necessitatibus, error sed consequatur quibusdam animi ducimus
+          cupiditate. Ut doloremque commodi alias exercitationem vitae facilis
+          consectetur. Deleniti, aspernatur exercitationem dignissimos, optio
+          cum tenetur in alias ipsam numquam omnis debitis accusamus placeat ab
+          voluptatum quaerat aliquid, recusandae facere consequuntur dolore
+          totam incidunt! Mollitia?
+        </p>
+        <a href="/listings" className="btn btn-primary mt-5">
+          Browse Listings
+        </a>
+        {/* </div> */}
       </div>
 
       <div className="about-section">
         <h1 className="mb-5">About Me</h1>
-        <p className="text-left lead">
+        <p className="text-center lead">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
           culpa amet corporis labore eveniet a dolores doloribus est dolorum.
           Quod magni totam cupiditate quo repellendus dicta blanditiis ea qui
@@ -102,7 +109,7 @@ function Home() {
               <PhoneIcon className="contact-icon" />
             </div>
             <h2 className="contact-info-title">Phone</h2>
-            <p className="lead">604 - 593 - 6188</p>
+            <p className="lead">604-600-5854</p>
           </div>
           <div className="info__email">
             <div className="contact__circle">
@@ -127,7 +134,6 @@ function Home() {
 }
 
 // For each cheque childrens donation
-// Add remax logo in footer
 // Services section?
 
 export default Home;
