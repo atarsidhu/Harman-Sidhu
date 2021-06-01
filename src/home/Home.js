@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import { CarouselProvider, Slider, Slide, DotGroup } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
@@ -6,8 +6,14 @@ import ListingCardBasic from "../listings/ListingCardBasic";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 function Home() {
+  useEffect(() => {
+    Aos.init({ duration: 1500 });
+  }, []);
+
   return (
     <div className="home">
       <div className="home__landingPage">
@@ -69,26 +75,35 @@ function Home() {
       </div>
 
       <div className="listings-section">
-        <h1 className="mb-5">Listings</h1>
+        <h1 data-aos="fade-up" className="mb-5">
+          Featured Listings
+        </h1>
         {/* <div className="listings__cards"> */}
-        <p className="text-center lead">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Necessitatibus, error sed consequatur quibusdam animi ducimus
-          cupiditate. Ut doloremque commodi alias exercitationem vitae facilis
-          consectetur. Deleniti, aspernatur exercitationem dignissimos, optio
-          cum tenetur in alias ipsam numquam omnis debitis accusamus placeat ab
-          voluptatum quaerat aliquid, recusandae facere consequuntur dolore
-          totam incidunt! Mollitia?
+        <p data-aos="fade-up" className="text-center lead">
+          Whether you are looking for homes, condos, townhomes, land, or
+          commerical properties, Harman Sidhu can give you the guidance you need
+          to make the right choice. Let Harman use his years of experience to
+          help you get the best price for your property or to help you find a
+          new place to call home. Surrey, Vancouver, Chilliwack or anywhere else
+          in the Lower Mainland, Harman can locate the perfect property for you.
         </p>
-        <a href="/listings" className="btn btn-primary mt-5">
+        <br></br>
+        <br></br>
+        <p data-aos="fade-up" className="lead info-bottom">
+          Find your dream home. Browse these listings currently available on the
+          market.
+        </p>
+        <a href="/listings" data-aos="fade-up" className="btn btn-primary mt-4">
           Browse Listings
         </a>
         {/* </div> */}
       </div>
 
       <div className="about-section">
-        <h1 className="mb-5">About Me</h1>
-        <p className="text-center lead">
+        <h1 data-aos="fade-up" className="mb-5">
+          About Me
+        </h1>
+        <p data-aos="fade-up" className="text-center lead">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
           culpa amet corporis labore eveniet a dolores doloribus est dolorum.
           Quod magni totam cupiditate quo repellendus dicta blanditiis ea qui
@@ -96,29 +111,31 @@ function Home() {
           cum voluptas, neque iure doloremque magnam cumque error nisi! Odit,
           ea?
         </p>
-        <a href="/about" className="btn btn-primary mt-5">
+        <a href="/about" data-aos="fade-up" className="btn btn-primary mt-5">
           Learn More
         </a>
       </div>
 
       <div className="contact-section">
-        <h1 className="mb-5">Let's Get In Touch</h1>
+        <h1 data-aos="fade-up" className="mb-5">
+          Let's Get In Touch
+        </h1>
         <div className="contact__info">
-          <div className="info__phone">
+          <div data-aos="fade-up" data-aos-delay="100" className="info__phone">
             <div className="contact__circle">
               <PhoneIcon className="contact-icon" />
             </div>
             <h2 className="contact-info-title">Phone</h2>
             <p className="lead">604-600-5854</p>
           </div>
-          <div className="info__email">
+          <div data-aos="fade-up" data-aos-delay="400" className="info__email">
             <div className="contact__circle">
               <EmailIcon className="contact-icon" />
             </div>
             <h2 className="contact-info-title">Email</h2>
             <p className="lead">harman@harmansidhu.ca</p>
           </div>
-          <div className="info__office">
+          <div data-aos="fade-up" data-aos-delay="700" className="info__office">
             <div className="contact__circle">
               <LocationCityIcon className="contact-icon" />
             </div>
