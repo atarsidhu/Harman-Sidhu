@@ -20,7 +20,6 @@ import HotelIcon from "@material-ui/icons/Hotel";
 import BathtubIcon from "@material-ui/icons/Bathtub";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { usePromiseTracker, trackPromise } from "react-promise-tracker";
-// import puppeteer from "puppeteer";
 
 function Listings() {
   const REALTOR_API_KEY = process.env.REACT_APP_REALTOR_API_KEY;
@@ -56,31 +55,6 @@ function Listings() {
   let searchResults = {};
   let searchFieldValues = `${property}${area}${minPrice}${maxPrice}${bathrooms}${bedrooms}`;
   let cardsSection = document.getElementsByClassName("cards-section");
-  // const puppeteer = require("puppeteer");
-
-  // (async () => {
-  //   const browser = await puppeteer.launch();
-  //   console.log(browser.wsEndpoint());
-  // })();
-
-  // (async function main() {
-  //   try {
-  //     const browser = await puppeteer.launch({ headless: false });
-  //     const page = await browser.newPage();
-  //     page.setUserAgent(
-  //       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
-  //     );
-
-  //     await page.goto(
-  //       "https://www.realtor.ca/agent/2044451/harman-sidhu-305--15288-54a-avenue-surrey-british-columbia-v3s6t4"
-  //     );
-  //     await page.waitForSelector(".cardCon");
-
-  //     console.log("showing");
-  //   } catch (e) {
-  //     console.log("error", e);
-  //   }
-  // })();
 
   /**
    * Loading indicator for when the API is being called
@@ -113,7 +87,6 @@ function Listings() {
   function filterListings(fromStart) {
     window.scrollTo(0, 170);
     const newErrors = findErrors();
-    // console.log(property);
 
     if (property === "4" || property === "6") {
       setIsLand(true);
@@ -121,8 +94,20 @@ function Listings() {
       setIsLand(false);
     }
 
+    // If clicked search
     if (fromStart) {
       currentPage.current = 1;
+
+      let pages = document.getElementsByClassName("page-link");
+      console.log(pages);
+
+      if (pages.length !== 0) {
+        for (let i = 0; i < pages.length; i++) {
+          pages[i].classList.remove("active");
+        }
+
+        pages[0].classList.add("active");
+      }
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -213,7 +198,7 @@ function Listings() {
           .request(newOptions)
           .then(function (response) {
             setListings(response.data.Results);
-            console.log(response.data.Results);
+            // console.log(response.data.Results);
 
             setPaging({
               ...paging,
@@ -382,8 +367,6 @@ function Listings() {
    * @param {Object} fromModal - Data returned from modal
    */
   function handleSave(fromModal) {
-    // setBedrooms(fromModal.beds);
-    // setBathrooms(fromModal.baths);
     bedrooms.current = fromModal.beds;
     bathrooms.current = fromModal.baths;
   }
@@ -479,7 +462,7 @@ function Listings() {
                   <i>
                     The service only accepts a range between 1-5 for beds and
                     baths. Any value entered over 5 will return a{" "}
-                    <strong>minimum</strong> of 5 of the desired type.
+                    <strong>minimum</strong> of 5 for the desired type.
                   </i>
                 </p>
               </Col>
@@ -498,7 +481,6 @@ function Listings() {
 
   return (
     <div className="listings">
-      {/* <div className="listings__title">Listings</div> */}
       <div className="page__header">
         <h1 className="header-title display-3">LISTINGS</h1>
         <div className="header__image">
@@ -513,7 +495,7 @@ function Listings() {
       <div className="listings__wrapper  scene_element scene_element--fadein">
         <div className="filter">
           <Container>
-            <h2 className="filter-title mb-3">Search Listings</h2>
+            <h2 className="filter-title mb-4">Search Listings</h2>
             <Row className="mb-3">
               <Col md={3}>
                 <p className="mb-1">Search by MLS&#174; Number</p>
@@ -694,31 +676,33 @@ function Listings() {
                   justifyContent: "space-between",
                 }}
               >
-                {/* Check for over max results condition */}
-                {currentPage.current === 1 ? (
-                  <p
-                    style={{
-                      margin: "0 0 0 5px",
-                      color: "gray",
-                      fontSize: "20px",
-                    }}
-                  >
-                    Showing 1 - {paging.recordsPerPage} of {paging.maxRecords}{" "}
-                    listings
-                  </p>
-                ) : (
-                  <p
-                    style={{
-                      margin: "0 0 0 5px",
-                      color: "gray",
-                      fontSize: "20px",
-                    }}
-                  >
-                    Showing {currentPage.current * paging.recordsPerPage - 49} -{" "}
-                    {currentPage.current * paging.recordsPerPage} of{" "}
-                    {paging.maxRecords} listings
-                  </p>
-                )}
+                <div>
+                  {/* Check for over max results condition */}
+                  {currentPage.current === 1 ? (
+                    <p
+                      style={{
+                        margin: "0 0 0 5px",
+                        color: "gray",
+                        fontSize: "20px",
+                      }}
+                    >
+                      Showing 1 - {paging.recordsPerPage} of {paging.maxRecords}{" "}
+                      listings
+                    </p>
+                  ) : (
+                    <p
+                      style={{
+                        margin: "0 0 0 5px",
+                        color: "gray",
+                        fontSize: "20px",
+                      }}
+                    >
+                      Showing {currentPage.current * paging.recordsPerPage - 49}{" "}
+                      - {currentPage.current * paging.recordsPerPage} of{" "}
+                      {paging.maxRecords} listings
+                    </p>
+                  )}
+                </div>
                 <Col md={2}>
                   <Form.Control as="select" onChange={(e) => handleSort(e)}>
                     <option value="0">Sort By</option>

@@ -22,7 +22,7 @@
   grid-column: 1/4;
   background-color: white;
   border-radius: 10px;
-  padding: 20px;
+  padding: 30px;
   min-width: 200px;
   max-height: 620px;
   box-shadow: 0 0 7px darkgray;
@@ -93,6 +93,16 @@ input[type="number"] {
   border: 1px solid #93934383 !important;
 }
 
+.additional-filters {
+  margin-top: 10px;
+  background: white;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 20px;
+  padding: 5px 10px;
+  box-shadow: 0 0 5px darkgray;
+}
+
 .cards-section {
   min-height: calc(100vh - 290px);
   padding-top: 20px;
@@ -123,4 +133,16 @@ input[type="number"] {
 
 .page-link:focus {
   box-shadow: none !important;
+}
+
+/* Media Queries */
+
+@media only screen and (min-width: 1200px) {
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1540px;
+  }
 }
