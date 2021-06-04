@@ -7,14 +7,11 @@ import ContactForm from "../ContactForm";
 function DetailedListing() {
   let location = useLocation();
   let id = location.pathname.split("/")[2];
-  // console.log(id);
 
   let listing = localStorage.getItem(id);
   listing = JSON.parse(listing);
   console.log(listing[listing.length - 1]);
   listing = listing[0];
-
-  //   localStorage.removeItem("listing");
 
   let title,
     cityWithPostalCode,
@@ -22,9 +19,8 @@ function DetailedListing() {
     sqftSize = "";
 
   if (listing?.Property?.Address?.AddressText !== "Address not available") {
-    [title, cityWithPostalCode] = listing?.Property?.Address?.AddressText.split(
-      "|"
-    );
+    [title, cityWithPostalCode] =
+      listing?.Property?.Address?.AddressText.split("|");
     [city] = cityWithPostalCode.split(",");
   }
 
@@ -36,10 +32,12 @@ function DetailedListing() {
   return (
     <div className="detailed">
       <div className="detailed__title">
-        <h1 className="display-4">{title}</h1>
+        <h1 className="display-4" style={{ fontSize: "300%" }}>
+          {title}
+        </h1>
         <h1
           className="display-4"
-          style={{ color: "#939343", fontWeight: "400" }}
+          style={{ color: "#939343", fontWeight: "400", fontSize: "300%" }}
         >
           {listing?.Property?.Price}
         </h1>

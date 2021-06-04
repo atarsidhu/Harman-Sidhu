@@ -56,12 +56,10 @@ function Map({ position, address }) {
   //     fontWeight: "bold",
   //   },
   // });
-  console.log(position);
   const labelPosition = {
     lat: position.lat + 0.003,
     lng: position.lng + 0.0005,
   };
-  console.log(labelPosition);
 
   return (
     <div className="google">

@@ -1,7 +1,7 @@
 .about {
   /* padding: 50px 150px; */
   background-color: whitesmoke;
-  min-height: calc(100vh - 80px);
+  /* min-height: calc(100vh - 80px); */
 }
 
 @keyframes fadeIn {
