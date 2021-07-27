@@ -13,7 +13,7 @@
 
 .header-title {
   position: absolute;
-  left: 50px;
+  left: 150px;
   top: calc(150px - 43px);
   color: white;
   font-weight: 600;
@@ -35,7 +35,7 @@
   right: 0;
   background-image: linear-gradient(
     to right,
-    rgb(0, 0, 60, 0.9),
+    rgb(0, 0, 60, 1),
     rgb(0, 0, 60, 0.6)
   );
   /* transition: all 0.3s linear; */
@@ -46,7 +46,7 @@
   width: 95%;
   height: inherit;
   object-fit: cover;
-  object-position: 0px 75%;
+  object-position: 0px 85%;
   padding-left: 20%;
 }
 
@@ -124,4 +124,60 @@ input[type="number"] {
 
 .lead {
   font-size: 18px !important;
+}
+
+@media only screen and (max-width: 780px) {
+  .lead {
+    font-size: 16px !important;
+  }
+
+  .page__header {
+    height: 100px;
+    padding-left: 15px;
+  }
+
+  .header-title {
+    left: 10%;
+    top: calc(130px - 43px);
+  }
+
+  .display-3 {
+    font-size: 16vw;
+  }
+
+  .contact-title {
+    font-size: 50px;
+  }
+
+  .contact__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wrapper__form {
+    margin-right: 0;
+    margin-bottom: 50px;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 780px) {
+  .display-3 {
+    font-size: 64px;
+  }
+}
+
+@media only screen and (min-width: 781px) and (max-width: 1024px) {
+  .header-title {
+    left: 10%;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .header-title {
+    left: 15%;
+  }
+
+  .contact__body {
+    padding: 50px 15%;
+  }
 }

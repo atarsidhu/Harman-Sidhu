@@ -104,12 +104,12 @@ function Home() {
           About Me
         </h1>
         <p data-aos="fade-up" className="text-center lead">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-          culpa amet corporis labore eveniet a dolores doloribus est dolorum.
-          Quod magni totam cupiditate quo repellendus dicta blanditiis ea qui
-          aliquid eum minima illo corporis ratione atque ex eaque repudiandae
-          cum voluptas, neque iure doloremque magnam cumque error nisi! Odit,
-          ea?
+          With years of industry knowledge, Harman can help you navigate the
+          market to find a fair value for buying or selling a property. He takes
+          it upon himself to give each and every client the best experience
+          possible. Your best interests are at the forefront of every decision.
+          Let Harman assist you in selling your property or locating the right
+          home for you.
         </p>
         <a href="/about" data-aos="fade-up" className="btn btn-primary mt-5">
           Learn More
@@ -139,7 +139,7 @@ function Home() {
             <div className="contact__circle">
               <LocationCityIcon className="contact-icon" />
             </div>
-            <h2 className="contact-info-title">Address</h2>
+            <h2 className="contact-info-title">Office</h2>
             <p className="lead">
               305 -15288 54A Avenue Surrey, British Columbia V3S6T4
             </p>
@@ -149,8 +149,5 @@ function Home() {
     </div>
   );
 }
-
-// For each cheque childrens donation
-// Services section?
 
 export default Home;

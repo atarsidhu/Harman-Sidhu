@@ -55,7 +55,7 @@ function ContactForm({ fromListing, address }) {
     <div>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row>
-          <Col>
+          <Col sm={6}>
             <Form.Group controlId="formFirstName">
               <Form.Label>First Name</Form.Label>
               <Form.Control
@@ -70,7 +70,7 @@ function ContactForm({ fromListing, address }) {
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
-          <Col>
+          <Col sm={6}>
             <Form.Group controlId="formLastName">
               <Form.Label>Last Name</Form.Label>
               <Form.Control
@@ -87,7 +87,7 @@ function ContactForm({ fromListing, address }) {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col sm={6}>
             <Form.Group controlId="formEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -102,7 +102,7 @@ function ContactForm({ fromListing, address }) {
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
-          <Col>
+          <Col sm={6}>
             <Form.Group controlId="formPhoneNumber">
               <Form.Label>Phone Number</Form.Label>
               <Form.Control
@@ -119,7 +119,7 @@ function ContactForm({ fromListing, address }) {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col sm={12}>
             <Form.Group controlId="formMessage">
               <Form.Label>Message</Form.Label>
               <Form.Control

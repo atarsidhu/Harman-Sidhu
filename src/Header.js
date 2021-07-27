@@ -41,7 +41,7 @@ function Header() {
         <img src="/images/HarmanSidhuLogo4Gold.png" alt="" className="logo" />
       </div>
       <div className="header__nav">
-        <NavLink to="/" className="link">
+        <NavLink exact to="/" className="link" activeClassName="selected">
           <p
             className={
               location.pathname !== "/"
@@ -67,6 +67,23 @@ function Header() {
             Listings
           </p>
         </NavLink>
+        {/* <NavLink
+          to="/exclusive-listings"
+          className="link"
+          activeClassName="selected"
+        >
+          <p
+            className={
+              location.pathname !== "/"
+                ? "header__option stick-text"
+                : sticky
+                ? "header__option stick-text"
+                : "header__option"
+            }
+          >
+            Exclusive Listings
+          </p>
+        </NavLink> */}
         <NavLink to="/about" className="link" activeClassName="selected">
           <p
             className={

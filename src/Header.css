@@ -33,7 +33,7 @@
 
 .header__nav {
   display: flex;
-  margin-right: 30px;
+  margin-right: 130px;
 }
 
 .header__option {
@@ -59,7 +59,7 @@
 }
 
 .header__logo {
-  margin-left: 50px;
+  margin-left: 150px;
   color: white;
 }
 
@@ -73,4 +73,48 @@
 
 .header p {
   margin-bottom: 0;
+}
+
+@media only screen and (max-width: 780px) {
+  .logo {
+    height: 7vw;
+  }
+
+  .header__logo {
+    margin-left: 10%;
+  }
+
+  .header__nav {
+    margin-right: 10%;
+  }
+
+  .header__option {
+    padding: 0 10px 10px 10px;
+    font-size: 2.5vw;
+  }
+}
+
+@media only screen and (min-width: 781px) and (max-width: 1024px) {
+  .header__logo {
+    margin-left: 10%;
+  }
+
+  .header__nav {
+    margin-right: 10%;
+  }
+
+  .header__option {
+    padding: 0 10px 10px 10px;
+    /* font-size: 2.5vw; */
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .header__logo {
+    margin-left: 15%;
+  }
+
+  .header__nav {
+    margin-right: calc(15% - 20px);
+  }
 }

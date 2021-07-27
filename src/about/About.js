@@ -25,23 +25,25 @@ function About() {
             }}
           />
           <p className="lead">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum ad
-            similique nostrum minus ex soluta praesentium! Recusandae deserunt
-            voluptate blanditiis consectetur quibusdam. Nam ratione totam
-            molestias officia. Impedit, obcaecati adipisci non deleniti
-            voluptate placeat sequi alias? Impedit error distinctio doloremque,
-            quos amet itaque nam quo, facere vero consequatur aliquid repellat.
+            Born and raised in Surrey, Harman calls the Lower Mainland home -
+            because it is! While studying abroad and obtaining a Bachelor of
+            Laws Degree (L.L.B.), Harman's background equips him with the
+            negotiation skills required to bring his clients the best price.
+            Harman has been selling homes, handling transactions and
+            understanding the market since 2017.
             <br></br>
             <br></br>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil
-            similique magni commodi dolorem aspernatur harum et nesciunt
-            deserunt officia. Delectus nostrum aperiam fugiat rerum laboriosam
-            excepturi possimus, eum vero officia, neque placeat accusamus quas
-            et reprehenderit adipisci nihil vel voluptatibus?
+            Harman is also doing his part in giving back to the community. Each
+            time he closes a deal, Harman donates a portion of his commission to
+            the BC Children's Hospital Foundation. While working with Harman,
+            you will also be helping a child in need.
+            <br></br>
+            <br></br>
+            Harman goes above and beyond for his clients to deliver them the
+            best results and to leave them with a smile on their face.
           </p>
           <p className="lead info-bottom">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores,
-            error.
+            Let Harman help you through this life-changing experience.
           </p>
           <a href="/contact" className="btn btn-primary">
             Get in Touch

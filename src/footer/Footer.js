@@ -11,17 +11,20 @@ function Footer() {
         <img
           src="/images/HarmanSidhuLogo4GoldWhite.png"
           alt=""
-          style={{ height: "125px" }}
+          className="footer-logo"
         />
       </div>
       <div className="footer__links">
-        <h4 className="mb-4">Navigate</h4>
+        <h4 className="mb-3">Navigate</h4>
         <a href="/" className="footer-link">
           Home
         </a>
         <a href="/listings" className="footer-link">
           Listings
         </a>
+        {/* <a href="/exclusive-listings" className="footer-link">
+          Exclusive Listings
+        </a> */}
         <a href="/about" className="footer-link">
           About
         </a>
@@ -30,7 +33,7 @@ function Footer() {
         </a>
       </div>
       <div className="footer__contact">
-        <h4 className="mb-4">Contact</h4>
+        <h4 className="mb-3">Contact</h4>
         <div className="contact__office">
           <img
             src="/images/remax-blueprint.png"

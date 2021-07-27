@@ -174,3 +174,165 @@
   width: 200px;
   justify-content: center;
 }
+
+@media only screen and (max-width: 480px) {
+  .home__content {
+    left: calc(50% - 30vw);
+    /* top: 50%; */
+    /* text-align: center; */
+  }
+
+  .name {
+    font-size: 8vw;
+    margin-bottom: 0%;
+  }
+
+  .title {
+    font-size: 4vw;
+  }
+
+  .remax {
+    font-size: 3vw;
+  }
+
+  .listings-section,
+  .about-section,
+  .contact-section {
+    padding: 20% 5%;
+  }
+
+  .listings-section h1,
+  .about-section h1,
+  .contact-section h1 {
+    font-size: 8vw;
+    margin-bottom: 10% !important;
+  }
+
+  .listings-section > p,
+  .about-section > p,
+  .contact-section > p {
+    font-size: 4vw !important;
+  }
+
+  .listings-section > .btn,
+  .about-section > .btn,
+  .contact-section > .btn {
+    font-size: 3vw !important;
+  }
+
+  .contact__info {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact__circle {
+    width: 25vw;
+    height: 25vw;
+    border-radius: 50%;
+  }
+
+  .contact-icon {
+    font-size: 15vw !important;
+  }
+
+  .contact__info * h2 {
+    font-size: 20px !important;
+  }
+
+  .info__phone > .lead {
+    font-size: 14px !important;
+  }
+
+  .info__email,
+  .info__office,
+  .info__phone {
+    margin-bottom: 50px;
+  }
+
+  .info__office {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 780px) {
+  .name {
+    font-size: 8vw;
+    margin-bottom: 0%;
+  }
+
+  .title {
+    font-size: 4vw;
+  }
+
+  .remax {
+    font-size: 3vw;
+  }
+
+  .contact__circle {
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+  }
+
+  .contact-icon {
+    font-size: 7vw !important;
+  }
+
+  .contact__info * h2 {
+    font-size: 24px !important;
+  }
+
+  .contact__info * p {
+    font-size: 16px !important;
+  }
+}
+
+@media only screen and (min-width: 781px) and (max-width: 1024px) {
+  .name {
+    font-size: 8vw;
+    margin-bottom: 0%;
+  }
+
+  .title {
+    font-size: 4vw;
+  }
+
+  .remax {
+    font-size: 3vw;
+  }
+
+  .contact__circle {
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+  }
+
+  .contact-icon {
+    font-size: 7vw !important;
+  }
+
+  .info__phone,
+  .info__email,
+  .info__office {
+    min-width: 200px;
+  }
+
+  .info__phone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .home__content {
+    left: 15%;
+  }
+
+  .listings-section,
+  .about-section,
+  .contact-section {
+    padding: 100px 15%;
+  }
+}

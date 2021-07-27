@@ -510,14 +510,7 @@ function Listings() {
                   {errors.mls}
                 </Form.Control.Feedback>
               </Col>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  padding: "0 10px",
-                }}
-              >
+              <div className="or-section">
                 <div
                   className="verticalRule"
                   style={{
@@ -526,7 +519,7 @@ function Listings() {
                     backgroundColor: "lightgray",
                   }}
                 ></div>
-                <p style={{ padding: "40% 5%", marginBottom: "0" }}>OR</p>
+                <p className="or">OR</p>
                 <div
                   className="verticalRule"
                   style={{
@@ -680,6 +673,7 @@ function Listings() {
                   {/* Check for over max results condition */}
                   {currentPage.current === 1 ? (
                     <p
+                      className="listing-count"
                       style={{
                         margin: "0 0 0 5px",
                         color: "gray",
