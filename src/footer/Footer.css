@@ -27,6 +27,7 @@
 .footer-link {
   padding-bottom: 15px;
   width: fit-content;
+  cursor: pointer;
 }
 
 .footer-link:hover {

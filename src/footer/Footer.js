@@ -2,8 +2,10 @@ import React from "react";
 import "./Footer.css";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
+import { useHistory } from "react-router-dom";
 
 function Footer() {
+  const history = useHistory();
   return (
     <div className="footer">
       {/* <h3>Logo</h3> */}
@@ -16,19 +18,19 @@ function Footer() {
       </div>
       <div className="footer__links">
         <h4 className="mb-3">Navigate</h4>
-        <a href="/" className="footer-link">
+        <a onClick={() => history.push("/")} className="footer-link">
           Home
         </a>
-        <a href="/listings" className="footer-link">
+        <a onClick={() => history.push("/listings")} className="footer-link">
           Listings
         </a>
         {/* <a href="/exclusive-listings" className="footer-link">
           Exclusive Listings
         </a> */}
-        <a href="/about" className="footer-link">
+        <a onClick={() => history.push("/about")} className="footer-link">
           About
         </a>
-        <a href="/contact" className="footer-link">
+        <a onClick={() => history.push("/contact")} className="footer-link">
           Contact
         </a>
       </div>

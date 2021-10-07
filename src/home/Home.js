@@ -8,8 +8,11 @@ import EmailIcon from "@material-ui/icons/Email";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { useHistory } from "react-router-dom";
 
 function Home() {
+  const history = useHistory();
+
   useEffect(() => {
     Aos.init({ duration: 1500 });
   }, []);
@@ -93,7 +96,11 @@ function Home() {
           Find your dream home. Browse these listings currently available on the
           market.
         </p>
-        <a href="/listings" data-aos="fade-up" className="btn btn-primary mt-4">
+        <a
+          onClick={() => history.push("/listings")}
+          data-aos="fade-up"
+          className="btn btn-primary mt-4"
+        >
           Browse Listings
         </a>
         {/* </div> */}
@@ -111,7 +118,11 @@ function Home() {
           Let Harman assist you in selling your property or locating the right
           home for you.
         </p>
-        <a href="/about" data-aos="fade-up" className="btn btn-primary mt-5">
+        <a
+          onClick={() => history.push("/about")}
+          data-aos="fade-up"
+          className="btn btn-primary mt-5"
+        >
           Learn More
         </a>
       </div>

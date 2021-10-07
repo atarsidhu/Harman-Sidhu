@@ -1,7 +1,9 @@
 import React from "react";
 import "./About.css";
+import { useHistory } from "react-router-dom";
 
 function About() {
+  const history = useHistory();
   return (
     <div className="about">
       <div className="page__header">
@@ -45,7 +47,10 @@ function About() {
           <p className="lead info-bottom">
             Let Harman help you through this life-changing experience.
           </p>
-          <a href="/contact" className="btn btn-primary">
+          <a
+            onClick={() => history.push("/contact")}
+            className="btn btn-primary"
+          >
             Get in Touch
           </a>
         </div>
